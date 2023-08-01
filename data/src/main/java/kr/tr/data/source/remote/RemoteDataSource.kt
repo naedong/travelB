@@ -27,17 +27,15 @@ class RemoteDataSource @Inject constructor(
     }
 
     suspend fun getBusanFestivalServiceKr(page : Int) : Response<FestivalService> {
-
-        Log.e("travelB", "Remote")
-        Log.e("youSSS", "" +
-                "No AsBusan" +
-                "${busanApiService.getFestivalKr(pageNo = page, numOfRows = 10)}")
-        Log.e("travelB", "페스티발 AS BUSAN ${busanApiService.getFestivalKr(pageNo = page, numOfRows = 10).asBusan()}")
-
-
         return busanApiService.getFestivalKr(pageNo = page, numOfRows = 10).asBusan()
     }
 
+    suspend fun getBusanFestiavlServiceDetailKr(ucSeq : Int) : Response<FestivalService>{
+
+        Log.e("getBusanFestiavlServiceDetailKr", "전달 확인 ")
+        Log.e("getBusanFestiavlServiceDetailKr", "${busanApiService.getFestivalKrDetail(ucSeq).asBusan()}" )
+        return busanApiService.getFestivalKrDetail(ucSeq).asBusan()
+    }
 
 
 }

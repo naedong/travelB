@@ -30,5 +30,11 @@ interface BusanApiService {
         @Query("resultType") resultType : String = "JSON",
     ) : Response<ResponseFestivalService>
 
+    @GET("6260000/FestivalService/getFestivalKr")
+    suspend fun getFestivalKrDetail(
+        @Query("UC_SEQ") ucSeq : Int,
+        @Query("resultType") resultType : String = "JSON",
+    ) : Response<ResponseFestivalService>
+
 
 }

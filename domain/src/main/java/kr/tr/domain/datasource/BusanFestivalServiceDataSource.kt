@@ -36,10 +36,6 @@ class BusanFestivalServiceDataSource @Inject constructor(
             }
             val list = busanResponse.body()?.getFestivalKr?.item ?: emptyList()
 
-
-            Log.e("youSSS", "getRefreshKey")
-            Log.e("youSSS", "$list")
-
             return LoadResult.Page(
                 data = list, nextKey = nextPage.plus(1), prevKey = if (nextPage == 1) null
                 else nextPage - 1

@@ -24,31 +24,8 @@ import retrofit2.Response
 fun Response<ResponseFestivalService>.asBusan() : Response<FestivalService>{
 
     return Response.success(body()?.let {
+         FestivalService(
 
-        Log.e("travelB", "MaPPer")
-        Log.e("travelB", "$it")
-        Log.e("travelB", "==============================" +
-                "" +
-                "ITEM" +
-                "" +
-                "")
-        Log.e("travelB", "${it.getFestivalKr.item.get(0)}")
-
-        Log.e("travelB", "==============================" +
-                "\n" +
-                "MAP" +
-                "\n" +
-                "\n")
-
-        it.getFestivalKr.item?.map { id ->
-        Log.e("travelB", "$id")
-            Log.e("travelB", "==============================")
-            Log.e("travelB", "${id.asBusan()}")
-        }
-
-
-
-        FestivalService(
             GetFestivalKr(
                 item = it.getFestivalKr.item?.map { item -> item.asBusan() } as List<GetFestivalKrItem>,
                 header = it.getFestivalKr.header?.asBusan() as Header,

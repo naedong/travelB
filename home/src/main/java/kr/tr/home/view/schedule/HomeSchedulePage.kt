@@ -53,14 +53,7 @@ fun MainScheudleItem(navController: NavHostController) {
 
                     SchedulePageItem(
                         nav = navController,
-                        imagePath = it.mainImgNormal,
-                        gugunNm = it.gugunNm,
-                        usageAmount = it.usageAmount,
-                        usageDayWeekAndTime = it.usageDayWeekAndTime,
-                        mainPlace = it.mainPlace,
-                        place = it.place,
-                        subTitle = it.subtitle,
-                        usageDay = it.usageDay
+                        classPath = it
                     )
                 }
 

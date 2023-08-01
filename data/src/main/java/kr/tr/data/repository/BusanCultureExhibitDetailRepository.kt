@@ -27,4 +27,8 @@ class BusanRepository @Inject constructor(
     override suspend fun getFestivalServiceGateWay(page: Int): Response<FestivalService> {
         return remoteDataSource.getBusanFestivalServiceKr(page)
     }
+
+    override suspend fun getFestivalServiceDetailGateWay(ucSeq: Int): Response<FestivalService> {
+        return remoteDataSource.getBusanFestiavlServiceDetailKr(ucSeq)
+    }
 }

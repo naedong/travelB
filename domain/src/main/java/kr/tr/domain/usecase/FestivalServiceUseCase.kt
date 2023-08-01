@@ -1,5 +1,6 @@
 package kr.tr.domain.usecase
 
+import android.util.Log
 import kr.tr.domain.model.item.FestivalService
 import kr.tr.domain.usecase.gateway.GateWay
 import retrofit2.Response
@@ -16,5 +17,11 @@ class FestivalServiceUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(page : Int) : Response<FestivalService> {
         return gateWay.getFestivalServiceGateWay(page)
+    }
+
+    suspend fun getFestivlaServiceDetailGateWay(ucSeq : Int) : Response<FestivalService>{
+        Log.e("getFestivlaServiceDetailGateWay", "${gateWay.getFestivalServiceDetailGateWay(ucSeq)}")
+
+        return gateWay.getFestivalServiceDetailGateWay(ucSeq)
     }
 }

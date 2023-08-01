@@ -28,12 +28,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import coil.compose.rememberAsyncImagePainter
 import kr.tr.commom.R
+import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.theme.CustomMaterialTheme
+import kr.tr.domain.model.item.GetFestivalKrItem
 
 /**
  * TravelBProject
@@ -43,14 +43,7 @@ import kr.tr.commom.theme.CustomMaterialTheme
  */
 @Composable
 fun SchedulePageItem(
-    imagePath: String?,
-    usageAmount: String?,
-    usageDayWeekAndTime: String?,
-    gugunNm: String?,
-    mainPlace: String?,
-    place: String?,
-    subTitle: String?,
-    usageDay: String?,
+    classPath : GetFestivalKrItem,
     nav: NavHostController,
     ) {
 
@@ -73,14 +66,16 @@ fun SchedulePageItem(
             Modifier
                 .padding(all = 3.dp)
                 .clickable {
-                    nav.navigate("mainHome/detail")
+                    nav.navigate(NavigationItem.mainHome.route+"/detail?ucSeq=${classPath.ucSeq}"){
+                        launchSingleTop = true
+                    }
                 }
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
 
         ){
 
-            imagePath?.let { item ->
+            classPath.mainImgNormal?.let { item ->
                 Image(painter =
                 rememberAsyncImagePainter(item),
                     contentScale = ContentScale.Crop,
@@ -103,12 +98,12 @@ fun SchedulePageItem(
                     .width(120.dp)
                     .height(100.dp)
             ) {
-                mainPlace?.let { item ->
+                classPath.mainPlace?.let { item ->
 
                     if(item == ""){
-                        place?.let { subItem ->
+                        classPath.place?.let { subItem ->
                             if(subItem == ""){
-                                subTitle?.let { titleItem ->
+                                classPath.subtitle?.let { titleItem ->
                                     Text(
                                         text = titleItem,
                                         fontSize = 12.sp,
@@ -154,7 +149,7 @@ fun SchedulePageItem(
                 
                 Spacer(modifier = Modifier.height(2.dp))
 
-                usageAmount?.let { item ->
+                classPath.usageAmount?.let { item ->
                     if (item == "") return
                     Text(
                         text = item,
@@ -171,9 +166,9 @@ fun SchedulePageItem(
                 Spacer(modifier = Modifier.height(2.dp))
 
 
-                usageDayWeekAndTime?.let { item ->
+                classPath.usageDayWeekAndTime?.let { item ->
                     if (item == ""){
-                     usageDay?.let { dayItem ->
+                        classPath.usageDay?.let { dayItem ->
                          Text(
                              text = dayItem,
                              fontSize = 8.sp,
@@ -203,7 +198,7 @@ fun SchedulePageItem(
 
                 Spacer(modifier = Modifier.height(2.dp))
 
-                gugunNm?.let { item ->
+                classPath.gugunNm?.let { item ->
                     if (item == "") return
                     Text(
                         text = item,
@@ -227,4 +222,3 @@ fun SchedulePageItem(
         }
     }
 }
-

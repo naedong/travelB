@@ -14,4 +14,7 @@ import retrofit2.Response
 interface GateWay {
     suspend fun getBusanCultreExhibitDetialGateWay(page : Int) : Response<GetBusanCultreExhibitDetail>
     suspend fun getFestivalServiceGateWay(page : Int) : Response<FestivalService>
+
+    suspend fun getFestivalServiceDetailGateWay(ucSeq : Int) : Response<FestivalService>
+
 }
