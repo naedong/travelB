@@ -28,7 +28,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import coil.compose.rememberAsyncImagePainter
 import kr.tr.commom.R
 import kr.tr.commom.theme.CustomMaterialTheme
@@ -71,8 +73,7 @@ fun SchedulePageItem(
             Modifier
                 .padding(all = 3.dp)
                 .clickable {
-                    nav.navigate("detailSchedulePage"){
-                    }
+                    nav.navigate("mainHome/detail")
                 }
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
@@ -94,9 +95,11 @@ fun SchedulePageItem(
 
             Column(
                 verticalArrangement = Arrangement.Top,
-                modifier = Modifier.padding(
-                    vertical = 8.dp,
-                horizontal = 12.dp)
+                modifier = Modifier
+                    .padding(
+                        vertical = 8.dp,
+                        horizontal = 12.dp
+                    )
                     .width(120.dp)
                     .height(100.dp)
             ) {

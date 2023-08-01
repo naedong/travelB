@@ -17,10 +17,8 @@ fun NavGraphBuilder.homeScreen(navController: NavHostController) {
     composable(route = NavigationItem.mainHome.route){
         HomeScreenRoute(navController)
     }
-}
 
-fun NavGraphBuilder.detailSchedulePage(navController: NavHostController) {
-    composable("detailSchedulePage"){
-        ScheduleDetailPage(navController)
+    composable(route = NavigationItem.mainHome.route+"/detail"){
+        ScheduleDetailPage(navController = navController)
     }
 }

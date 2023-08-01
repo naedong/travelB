@@ -79,7 +79,7 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-
+                    navController.navigate(NavigationItem.mainHome.route)
                 }, modifier = Modifier
 
                     .padding(6.dp)
