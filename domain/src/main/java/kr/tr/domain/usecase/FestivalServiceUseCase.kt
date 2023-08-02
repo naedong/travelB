@@ -19,9 +19,4 @@ class FestivalServiceUseCase @Inject constructor(
         return gateWay.getFestivalServiceGateWay(page)
     }
 
-    suspend fun getFestivlaServiceDetailGateWay(ucSeq : Int) : Response<FestivalService>{
-        Log.e("getFestivlaServiceDetailGateWay", "${gateWay.getFestivalServiceDetailGateWay(ucSeq)}")
-
-        return gateWay.getFestivalServiceDetailGateWay(ucSeq)
-    }
 }

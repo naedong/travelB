@@ -1,6 +1,6 @@
 package kr.tr.data.mapper
 
-import android.util.Log
+import kr.tr.commom.utill.DataPreprocessing
 import kr.tr.data.model.ResponseHeader
 import kr.tr.data.model.asBusan
 import kr.tr.data.model.item.ResponseBusanCultureExhibitDetailItem
@@ -25,7 +25,6 @@ fun Response<ResponseFestivalService>.asBusan() : Response<FestivalService>{
 
     return Response.success(body()?.let {
          FestivalService(
-
             GetFestivalKr(
                 item = it.getFestivalKr.item?.map { item -> item.asBusan() } as List<GetFestivalKrItem>,
                 header = it.getFestivalKr.header?.asBusan() as Header,
@@ -40,12 +39,12 @@ fun Response<ResponseFestivalService>.asBusan() : Response<FestivalService>{
 
 fun ResponseGetFestivalKrItem.asBusan(): GetFestivalKrItem {
     return GetFestivalKrItem(
-        addr1 = addr1,
+        addr1 =  addr1,
         addr2 = addr2,
         cntctTel = cntctTel,
         gugunNm = gugunNm,
         homepageUrl = homepageUrl,
-        itemcntnts = itemcntnts,
+        itemcntnts = DataPreprocessing(itemcntnts),
         lat = lat,
         lng = lng,
         mainImgNormal = mainImgNormal,
@@ -56,10 +55,11 @@ fun ResponseGetFestivalKrItem.asBusan(): GetFestivalKrItem {
         place = place,
         subtitle = subtitle,
         title = title,
-        trfcInfo = trfcInfo,
+        trfcInfo = DataPreprocessing(trfcInfo),
         ucSeq =ucSeq,
         usageAmount = usageAmount,
         usageDay = usageDay,
         usageDayWeekAndTime = usageDayWeekAndTime
     )
 }
+

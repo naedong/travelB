@@ -1,5 +1,6 @@
 package kr.tr.home.item
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,6 +34,7 @@ import coil.compose.rememberAsyncImagePainter
 import kr.tr.commom.R
 import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.theme.CustomMaterialTheme
+import kr.tr.commom.utill.TypeConvetor
 import kr.tr.domain.model.item.GetFestivalKrItem
 
 /**
@@ -46,6 +48,7 @@ fun SchedulePageItem(
     classPath : GetFestivalKrItem,
     nav: NavHostController,
     ) {
+
 
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -66,7 +69,13 @@ fun SchedulePageItem(
             Modifier
                 .padding(all = 3.dp)
                 .clickable {
-                    nav.navigate(NavigationItem.mainHome.route+"/detail?ucSeq=${classPath.ucSeq}"){
+                    nav.navigate(
+                        NavigationItem.mainHome.route + "/detail?ucSeq=${
+                            TypeConvetor(clazz = GetFestivalKrItem::class.java).ClassToJsonString(
+                                classPath
+                            )
+                        }"
+                    ) {
                         launchSingleTop = true
                     }
                 }
@@ -95,10 +104,10 @@ fun SchedulePageItem(
                         vertical = 8.dp,
                         horizontal = 12.dp
                     )
-                    .width(120.dp)
+                    .fillMaxWidth(0.9f)
                     .height(100.dp)
             ) {
-                classPath.mainPlace?.let { item ->
+                classPath.title?.let { item ->
 
                     if(item == ""){
                         classPath.place?.let { subItem ->
@@ -106,7 +115,7 @@ fun SchedulePageItem(
                                 classPath.subtitle?.let { titleItem ->
                                     Text(
                                         text = titleItem,
-                                        fontSize = 12.sp,
+                                        fontSize = 16.sp,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                         letterSpacing = 0.6.sp,
@@ -120,7 +129,7 @@ fun SchedulePageItem(
                             else {
                                 Text(
                                     text = subItem,
-                                    fontSize = 12.sp,
+                                    fontSize = 16.sp,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     letterSpacing = 0.6.sp,
@@ -134,7 +143,7 @@ fun SchedulePageItem(
                     } else {
                         Text(
                             text = item,
-                            fontSize = 12.sp,
+                            fontSize = 16.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             letterSpacing = 0.6.sp,
@@ -146,14 +155,14 @@ fun SchedulePageItem(
                     }
                 }
 
-                
-                Spacer(modifier = Modifier.height(2.dp))
+
+                Spacer(modifier = Modifier.height(5.dp))
 
                 classPath.usageAmount?.let { item ->
                     if (item == "") return
                     Text(
                         text = item,
-                        fontSize = 7.sp,
+                        fontSize = 12.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         letterSpacing = 0.6.sp,
@@ -163,7 +172,7 @@ fun SchedulePageItem(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
 
                 classPath.usageDayWeekAndTime?.let { item ->
@@ -171,7 +180,7 @@ fun SchedulePageItem(
                         classPath.usageDay?.let { dayItem ->
                          Text(
                              text = dayItem,
-                             fontSize = 8.sp,
+                             fontSize = 12.sp,
                              maxLines = 1,
                              overflow = TextOverflow.Ellipsis,
                              letterSpacing = 0.6.sp,
@@ -185,7 +194,7 @@ fun SchedulePageItem(
                     else {
                         Text(
                             text = item,
-                            fontSize = 8.sp,
+                            fontSize = 12.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             letterSpacing = 0.6.sp,
@@ -196,13 +205,13 @@ fun SchedulePageItem(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
                 classPath.gugunNm?.let { item ->
                     if (item == "") return
                     Text(
                         text = item,
-                        fontSize = 8.sp,
+                        fontSize = 12.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         letterSpacing = 0.6.sp,

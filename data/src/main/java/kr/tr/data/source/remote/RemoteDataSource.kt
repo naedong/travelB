@@ -30,12 +30,6 @@ class RemoteDataSource @Inject constructor(
         return busanApiService.getFestivalKr(pageNo = page, numOfRows = 10).asBusan()
     }
 
-    suspend fun getBusanFestiavlServiceDetailKr(ucSeq : Int) : Response<FestivalService>{
-
-        Log.e("getBusanFestiavlServiceDetailKr", "전달 확인 ")
-        Log.e("getBusanFestiavlServiceDetailKr", "${busanApiService.getFestivalKrDetail(ucSeq).asBusan()}" )
-        return busanApiService.getFestivalKrDetail(ucSeq).asBusan()
-    }
 
 
 }

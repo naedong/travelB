@@ -42,15 +42,12 @@ fun HomeMainPage()  {
 
 
         Box(modifier = Modifier
-            .height(300.dp)
+            .height(150.dp)
             .zIndex(0f)
             .fillMaxWidth()
             .padding(top = 80.dp, bottom = 20.dp)
-            .background(Color.Gray)
-        ){
-            Text(text = "사업자 정보")
-
-        }
+            .background(Color.White)
+        )
     }
 
 }
