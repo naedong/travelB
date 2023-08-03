@@ -63,12 +63,32 @@ val maruBuri_SemiBold = FontFamily(
 )
 
 
+val the_Jamsil_Oft_Light = FontFamily(
+    Font(R.font.the_jamsil_otf_2_light, FontWeight.Bold, FontStyle.Normal),
+    Font(R.font.the_jamsil_otf_2_light, FontWeight.ExtraBold, FontStyle.Normal),
+    Font(R.font.the_jamsil_otf_2_light, FontWeight.Normal, FontStyle.Normal),
+    Font(R.font.the_jamsil_otf_2_light, FontWeight.SemiBold, FontStyle.Normal),
+    Font(R.font.the_jamsil_otf_2_light, FontWeight.ExtraLight, FontStyle.Normal),
+    Font(R.font.the_jamsil_otf_2_light, FontWeight.Medium, FontStyle.Normal),
+)
+val hakgyoanasimwooju = FontFamily(
+    Font(R.font.hakgyoansimwoojur, FontWeight.Bold, FontStyle.Normal),
+    Font(R.font.hakgyoansimwoojur, FontWeight.ExtraBold, FontStyle.Normal),
+    Font(R.font.hakgyoansimwoojur, FontWeight.Normal, FontStyle.Normal),
+    Font(R.font.hakgyoansimwoojur, FontWeight.SemiBold, FontStyle.Normal),
+    Font(R.font.hakgyoansimwoojur, FontWeight.ExtraLight, FontStyle.Normal),
+    Font(R.font.hakgyoansimwoojur, FontWeight.Medium, FontStyle.Normal),
+
+    )
+
 class CusTypoClass(
     val maruBuri_Regular : FontFamily,
     val maruBuri_SemiBold : FontFamily,
     val maruBuri_Light : FontFamily,
     val maruBuri_ExtraLight : FontFamily,
     val maruBuri_Bold : FontFamily,
+    val thejamsiloftlight : FontFamily,
+    val hakgyoanasimwoojur : FontFamily,
 )
 
 fun customTypography(
@@ -77,13 +97,18 @@ fun customTypography(
     maruBuri_Light : FontFamily = maruburi_light,
     maruBuri_ExtraLight : FontFamily = maruburi_extralight,
     maruBuri_Bold : FontFamily = maruburi_bold,
+    theJamsilOftLight: FontFamily = the_Jamsil_Oft_Light,
+    hakgyoanasimwoojur: FontFamily = hakgyoanasimwooju
+
 ) : CusTypoClass =
     CusTypoClass (
         maruBuri_Regular,
         maruBuri_SemiBold,
         maruBuri_Light,
         maruBuri_ExtraLight,
-        maruBuri_Bold
+        maruBuri_Bold,
+        hakgyoanasimwoojur,
+        theJamsilOftLight
     )
 
 val customTypographys = Typography(

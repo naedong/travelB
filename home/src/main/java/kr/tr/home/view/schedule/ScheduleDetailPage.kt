@@ -48,6 +48,7 @@ import androidx.compose.ui.zIndex
 
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.items.RegionInfoCard
 import kr.tr.commom.theme.CustomMaterialTheme
 import kr.tr.domain.model.item.GetFestivalKrItem
@@ -78,7 +79,7 @@ fun ScheduleDetailPage(navController: NavHostController, index: GetFestivalKrIte
                                     color =
                                     Color.White,
                                     //CustomMaterialTheme.colorScheme.mySchemePrimary,
-                                    fontFamily = CustomMaterialTheme.typography.maruBuri_Bold,
+                                    fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
                                     maxLines = 1,
                                     fontSize = 18.sp,
                                 )
@@ -89,7 +90,7 @@ fun ScheduleDetailPage(navController: NavHostController, index: GetFestivalKrIte
                                 color =
                                 Color.White,
                                 //CustomMaterialTheme.colorScheme.mySchemePrimary,
-                                fontFamily = CustomMaterialTheme.typography.maruBuri_Bold,
+                                fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
                                 maxLines = 1,
                                 fontSize = 18.sp,
                                 )
@@ -104,7 +105,7 @@ fun ScheduleDetailPage(navController: NavHostController, index: GetFestivalKrIte
                         modifier = Modifier
                             .size(48.dp, 48.dp)
                             .clickable {
-                                navController.navigateUp()
+                                navController.navigate(NavigationItem.mainHome.route+"/0")
                             },
                         tint =
                         Color.White,
@@ -144,7 +145,18 @@ fun DetailView(index : GetFestivalKrItem?) {
 
 
                 Spacer(modifier = Modifier.height(16.dp))
-                RegionInfoCard(name = index?.subtitle.toString(), gender = index?.cntctTel.toString(), location = index?.gugunNm.toString())
+
+                when(index?.subtitle){
+                    "" -> when(index?.title){
+                        "" -> when(index?.place){
+                            "" -> null
+                                else -> RegionInfoCard(name = index?.place.toString(), number = index?.cntctTel.toString(), location = index?.gugunNm.toString())
+                        }
+                            else -> RegionInfoCard(name = index?.title.toString(), number = index?.cntctTel.toString(), location = index?.gugunNm.toString())
+                    }
+                    else -> RegionInfoCard(name = index?.subtitle.toString(), number = index?.cntctTel.toString(), location = index?.gugunNm.toString())
+                }
+
             }
         }
 
@@ -179,20 +191,67 @@ fun DetailView(index : GetFestivalKrItem?) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = it)
+
                 }
             }
         }
 
         // Owner info
         item {
-            index.apply {
-
-                Spacer(modifier = Modifier.height(24.dp))
-                Title(title = "Owner info")
-                Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+            Title(title = "그 외 정보")
+            Spacer(modifier = Modifier.height(24.dp))
+            index?.usageAmount?.let {
+                when(it){
+                    "" -> null
+                    else -> {
+                        Text(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(16.dp, 0.dp, 16.dp, 0.dp),
+                            text = "가격 : $it",
+                            fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                    }
+//                Title(title = "Owner info")
+//                Spacer(modifier = Modifier.height(16.dp))
 //                owner.apply {
 //                    OwnerCard(name, bio, image)
 //                }
+            }
+        }
+        item {
+            index?.usageDay?.let {
+                when(it){
+                    "" -> null
+                    else -> {
+                        Text(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(16.dp, 0.dp, 16.dp, 0.dp),
+                            text = "축제 날짜 : $it",
+                            fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+            }
+        }
+
+        item {
+            index?.usageDayWeekAndTime?.let {
+                when(it){
+                    "" -> null
+                    else -> {
+                        Text(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(16.dp, 0.dp, 16.dp, 0.dp),
+                            text = "축제 날짜 : $it",
+                            fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
             }
         }
 
@@ -218,7 +277,7 @@ fun DetailView(index : GetFestivalKrItem?) {
                 .zIndex(0f)
                 .fillMaxWidth()
                 .padding(top = 80.dp, bottom = 20.dp)
-                .background(Color.White)
+                .background(Color.White.copy(0f))
             )
         }
 

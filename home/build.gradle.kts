@@ -72,6 +72,8 @@ dependencies {
     implementation(Libraries.nav.nav)
   //  implementation(Libraries.nav.hiltNav)
 
+    // UI
+    implementation(Libraries.compose.ui.composeUiUtill)
 
     //coil
     implementation(Libraries.coil.coil)

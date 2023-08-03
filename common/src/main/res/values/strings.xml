@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TravelBProject</string>
-
+    <string name="kakao_api_key">7d24527f1ca4f9b944d511f266ea9477</string>
     <string name="released_on">Released on %1$s</string>
     <string name="rated">%1$s⭐</string>
 

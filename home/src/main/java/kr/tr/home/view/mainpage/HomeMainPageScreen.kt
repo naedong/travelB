@@ -7,6 +7,6 @@ import androidx.navigation.NavHostController
 @Composable
 fun HomeMainPageScreen(navController: NavHostController) {
 
-    HomeMainPage()
+    HomeMainPage(navController)
 
 }

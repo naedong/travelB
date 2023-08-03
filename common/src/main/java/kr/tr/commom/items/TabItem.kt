@@ -82,7 +82,7 @@ fun TabItem(
                 },
             text = text,
             color = tabTextColor,
-            fontFamily = maruburi_bold,
+            fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
             fontSize = 22.sp,
 
         )

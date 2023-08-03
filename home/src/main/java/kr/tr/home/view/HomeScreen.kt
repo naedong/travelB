@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import kr.tr.commom.items.TabItem
@@ -31,22 +32,22 @@ import kr.tr.home.view.schedule.HomeSchedulePageScreen
 import kr.tr.home.view.ticket.HomeTicketingPageScreen
 
 @Composable
-fun HomeScreenRoute(navController: NavHostController) {
+fun HomeScreenRoute(navController: NavHostController, backStackEntry: String) {
 
-    HomeScreen(navController)
+    HomeScreen(navController, backStackEntry)
 }
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController, backStackEntry: String) {
 
-    HomeScreenSetting(navController)
+    HomeScreenSetting(navController, backStackEntry)
 
 }
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreenSetting(navController: NavHostController) {
+fun HomeScreenSetting(navController: NavHostController, backStackEntry: String) {
 
 
 
@@ -66,7 +67,7 @@ fun HomeScreenSetting(navController: NavHostController) {
             .fillMaxHeight()
     ) {
         CustomTab(
-            tabItems = tabItem, pagerState = pagerState
+            tabItems = tabItem, pagerState = pagerState, backStackEntry = backStackEntry
         )
         HorizontalPager(pageCount = tabItem.size, state = pagerState
             ) { page ->
@@ -77,9 +78,14 @@ fun HomeScreenSetting(navController: NavHostController) {
 
             ) {
                 when(page){
-                    0 -> { HomeSchedulePageScreen(navController) }
-                    1 -> { HomeMainPageScreen(navController) }
-                    else -> { HomeTicketingPageScreen(navController)
+                    0 -> {
+                        HomeSchedulePageScreen(navController)
+                    }
+                    1 -> {
+                        HomeMainPageScreen(navController)
+                    }
+                    else -> {
+                        HomeTicketingPageScreen(navController)
                     }
                 }
 
@@ -96,14 +102,19 @@ fun CustomTab(
     tabItems: List<String>,
     modifier: Modifier = Modifier,
     tabWidth: Dp = 100.dp,
-    pagerState: PagerState
-) {
+    pagerState: PagerState,
+    backStackEntry: String,
+
+    ) {
 
     val coroutine = rememberCoroutineScope()
 
+
+
+
     LaunchedEffect(true) {
         coroutine.launch {
-            pagerState.scrollToPage(1)
+            pagerState.scrollToPage(backStackEntry.toInt())
         }
     }
 
@@ -143,6 +154,7 @@ fun CustomTab(
                     isSelected = pagerState.targetPage == index,
                     tabWidth = tabWidth,
                     text = item,
+
                 )
             }
         }

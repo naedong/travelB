@@ -55,12 +55,12 @@ fun CardItem(
             defaultElevation = 5.dp,
         ),
         colors = CardDefaults.cardColors(
-            containerColor = Color.Cyan,
+            containerColor = Color(0xFFD5E3EE),
         ),
     ) {
         Column(modifier = Modifier.clickable {
             nav.navigate(
-                NavigationItem.mainHome.route + "/detail?ucSeq=${
+                NavigationItem.mainHome.route +"/Schedule" + "/detail?ucSeq=${
                     TypeConvetor(clazz = GetFestivalKrItem::class.java).ClassToJsonString(
                         classPath
                     )
@@ -92,12 +92,12 @@ fun CardItem(
                 classPath.title?.let { item ->
 
                     if (item == "") {
-                        classPath.place?.let { subItem ->
-                            if (subItem == "") {
-                                classPath.subtitle?.let { titleItem ->
+                        classPath.place?.let { placeItem ->
+                            if (placeItem == "") {
+                                classPath.subtitle?.let { subTitleItem ->
                                     Text(
-                                        text = titleItem,
-                                        fontSize = 16.sp,
+                                        text = subTitleItem,
+                                        fontSize = 15.sp,
                                         maxLines = 2,
                                         overflow = TextOverflow.Ellipsis,
                                         letterSpacing = 0.6.sp,
@@ -108,8 +108,8 @@ fun CardItem(
                                 }
                             } else {
                                 Text(
-                                    text = subItem,
-                                    fontSize = 16.sp,
+                                    text = placeItem,
+                                    fontSize = 15.sp,
                                     maxLines = 2,
                                     overflow = TextOverflow.Ellipsis,
                                     letterSpacing = 0.6.sp,
@@ -122,7 +122,7 @@ fun CardItem(
                     } else {
                         Text(
                             text = item,
-                            fontSize = 16.sp,
+                            fontSize = 15.sp,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                             letterSpacing = 0.6.sp,

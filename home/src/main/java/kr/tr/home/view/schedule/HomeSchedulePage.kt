@@ -1,8 +1,6 @@
 package kr.tr.home.view.schedule
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,8 +20,8 @@ import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import kr.tr.commom.utill.DayPreProcessing
 import kr.tr.home.item.CardItem
-import kr.tr.home.item.SchedulePageItem
 import kr.tr.home.model.FestivalServiceViewModel
 
 
@@ -62,12 +60,15 @@ fun MainScheudleItem(navController: NavHostController) {
 
             items(use) { item ->
                 item?.let { it ->
-
-
-                    CardItem(
-                        classPath = it,
-                        nav = navController
-                    )
+                    it.usageDayWeekAndTime?.let { day ->
+                       if(DayPreProcessing(day)) null
+                        else {
+                           CardItem(
+                               classPath = it,
+                               nav = navController
+                           )
+                       }
+                    }
 
                 }
 
@@ -93,7 +94,7 @@ fun MainScheudleItem(navController: NavHostController) {
                                     .zIndex(0f)
                                     .fillMaxWidth()
                                     .padding(top = 80.dp, bottom = 20.dp)
-                                    .background(Color.White)
+                                    .background(Color.White.copy(0f))
                             )
                         }
                     }
@@ -110,7 +111,7 @@ fun MainScheudleItem(navController: NavHostController) {
                                     .zIndex(0f)
                                     .fillMaxWidth()
                                     .padding(top = 80.dp, bottom = 20.dp)
-                                    .background(Color.White)
+                                    .background(Color.White.copy(0f))
                             )
                         }
 
@@ -127,7 +128,7 @@ fun MainScheudleItem(navController: NavHostController) {
                                     .zIndex(0f)
                                     .fillMaxWidth()
                                     .padding(top = 80.dp, bottom = 20.dp)
-                                    .background(Color.White)
+                                    .background(Color.White.copy(0f))
                             )
 
                         }

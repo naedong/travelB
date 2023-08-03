@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -121,6 +122,7 @@ fun InfiniteLoopPager(
             }
         }
         PagerIndicator(
+            state = pagerState,
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .fillMaxWidth()
@@ -136,6 +138,7 @@ fun InfiniteLoopPager(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PagerIndicator(
     modifier: Modifier = Modifier,
@@ -144,7 +147,8 @@ fun PagerIndicator(
     spacedBy: Dp,
     currentPage: Int,
     selectedColor: Color,
-    unSelectedColor: Color
+    unSelectedColor: Color,
+    state: PagerState
 ) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(spacedBy)) {
         (0 until count).forEach { index ->

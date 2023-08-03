@@ -1,7 +1,7 @@
 package kr.tr.data.api
 
-import kr.tr.data.BuildConfig
 import kr.tr.data.model.item.ResponsGetBusanCultreExhibitDetail
+import kr.tr.data.model.item.ResponseAttractionServiceItem
 import kr.tr.data.model.item.ResponseFestivalService
 import retrofit2.Response
 import retrofit2.http.GET
@@ -35,6 +35,15 @@ interface BusanApiService {
         @Query("UC_SEQ") ucSeq : Int,
         @Query("resultType") resultType : String = "JSON",
     ) : Response<ResponseFestivalService>
+
+    @GET("6260000/AttractionService/getAttractionKr")
+    suspend fun getAttractionKr(
+        @Query("pageNo") pageNo : Int,
+        @Query("numOfRows") numOfRows : Int,
+        @Query("resultType") resultType : String = "JSON",
+    ) : Response<ResponseAttractionServiceItem>
+
+
 
 
 }

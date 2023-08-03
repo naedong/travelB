@@ -59,6 +59,7 @@ dependencies {
     implementation(Libraries.compose.ui.constraintLayout)
 
     implementation(Libraries.compose.material.material3Compose)
+    implementation("androidx.navigation:navigation-runtime-ktx:2.6.0")
     testImplementation(Libraries.junit.junit)
     androidTestImplementation(Libraries.junit.extJunit)
     androidTestImplementation(Libraries.junit.esprressoCore)

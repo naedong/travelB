@@ -67,7 +67,7 @@ fun InfoCard(title: String, value: String) {
 }
 
 @Composable
-fun RegionInfoCard(name: String, gender: String, location: String) {
+fun RegionInfoCard(name: String, number: String, location: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -77,11 +77,13 @@ fun RegionInfoCard(name: String, gender: String, location: String) {
         Column(modifier = Modifier.align(Alignment.CenterVertically)) {
             Text(
                 text = name,
-                modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
+                modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp)
+                    .fillMaxWidth(0.6f),
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                fontFamily = CustomMaterialTheme.typography.maruBuri_Bold
+
+                fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur
             )
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -111,7 +113,7 @@ fun RegionInfoCard(name: String, gender: String, location: String) {
 //            )
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            GenderTag(gender)
+            GenderTag(number)
         }
     }
 }

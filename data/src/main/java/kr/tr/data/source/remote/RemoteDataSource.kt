@@ -4,6 +4,7 @@ package kr.tr.data.source.remote
 import android.util.Log
 import kr.tr.data.api.BusanApiService
 import kr.tr.data.mapper.asBusan
+import kr.tr.domain.model.item.AttractionServiceItem
 import kr.tr.domain.model.item.BusanCultureExhibitDetailItem
 import kr.tr.domain.model.item.FestivalService
 import kr.tr.domain.model.item.GetBusanCultreExhibitDetail
@@ -28,6 +29,10 @@ class RemoteDataSource @Inject constructor(
 
     suspend fun getBusanFestivalServiceKr(page : Int) : Response<FestivalService> {
         return busanApiService.getFestivalKr(pageNo = page, numOfRows = 10).asBusan()
+    }
+
+    suspend fun getAttrationServiceKr(page: Int) : Response<AttractionServiceItem>{
+        return busanApiService.getAttractionKr(page, numOfRows = 10).asBusan()
     }
 
 
