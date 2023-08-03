@@ -130,8 +130,6 @@ fun DetailView(index : GetFestivalKrItem?) {
             .background(color = Color.White)
     ) {
 
-
-
         // Basic details
         item {
             index?.mainImgNormal?.let { task ->

@@ -53,6 +53,7 @@ android {
 }
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":common")))
 
     implementation(Libraries.annotationVersion)
 

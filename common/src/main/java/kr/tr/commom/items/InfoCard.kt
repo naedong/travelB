@@ -15,16 +15,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -59,9 +55,7 @@ fun InfoCard(title: String, value: String) {
                 fontWeight = FontWeight.W600,
                 textAlign = TextAlign.Center
             )
-
             Spacer(modifier = Modifier.height(4.dp))
-
             Text(
                 text = title,
                 modifier = Modifier.fillMaxWidth(),
@@ -109,12 +103,12 @@ fun RegionInfoCard(name: String, gender: String, location: String) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = "12 mins ago",
-                modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
-                color = Color.Black.copy(0.9f),
-
-            )
+//            Text(
+//                text = "12 mins ago",
+//                modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
+//                color = Color.Black.copy(0.9f),
+//
+//            )
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             GenderTag(gender)

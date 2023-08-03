@@ -47,7 +47,7 @@ android {
 
 dependencies {
 
-
+    implementation(Libraries.gson.gson)
 
     implementation(Libraries.coil.coil)
 
