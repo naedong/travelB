@@ -23,25 +23,20 @@ class BusanFestivalServiceDataSource @Inject constructor(
     private val festivalServiceUseCase: FestivalServiceUseCase
 ) : PagingSource<Int, GetFestivalKrItem>() {
 
-    override fun getRefreshKey(state: PagingState<Int, GetFestivalKrItem>): Int? =
-        state.anchorPosition
+    override fun getRefreshKey(state: PagingState<Int, GetFestivalKrItem>): Int? = state.anchorPosition
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GetFestivalKrItem> {
         try {
             val nextPage = params.key ?: 1
             val busanResponse = festivalServiceUseCase.invoke(nextPage)
-
             if (busanResponse.body()?.getFestivalKr?.header?.message?.isNullOrEmpty() == true) {
                 return LoadResult.Error(throw Exception("Error Check Plz"))
             }
             val list = busanResponse.body()?.getFestivalKr?.item ?: emptyList()
-
             return LoadResult.Page(
                 data = list, nextKey = nextPage.plus(1), prevKey = if (nextPage == 1) null
                 else nextPage - 1
             )
-
-
         } catch (e: Exception) {
             when (e) {
                 is UnknownHostException, is SocketTimeoutException -> {

@@ -46,26 +46,23 @@ fun BannerItem(modifier : Modifier = Modifier,
 {
 
 
-    val pageState = rememberPagerState()
-
-    HorizontalPager(pageCount = 4, state = pageState) { page ->
-        Card(
-            modifier = modifier
-                .graphicsLayer {
-                    // Calculate the absolute offset for the current page from the
-                    // scroll position. We use the absolute value which allows us to mirror
-                    // any effects for both directions
-                    val pageOffset = (
-                            (pageState.currentPage - page)
-//                                    + pageState
-//                                .currentPageOffsetFraction
-                            ).absoluteValue
-                }
-                .background(CustomMaterialTheme.colorScheme.mySchemePrimary)
-        ) {
-            // Card content
-        }
-    }
+//    val pageState = rememberPagerState()
+//
+//    HorizontalPager(pageCount = 4, state = pageState) { page ->
+//        Card(
+//            modifier = modifier
+//                .graphicsLayer {
+//                    val pageOffset = (
+//                            (pageState.currentPage - page)
+////                                    + pageState
+////                                .currentPageOffsetFraction
+//                            ).absoluteValue
+//                }
+//                .background(CustomMaterialTheme.colorScheme.mySchemePrimary)
+//        ) {
+//            // Card content
+//        }
+//    }
 
 }
 

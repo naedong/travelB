@@ -1,5 +1,6 @@
 package kr.tr.travelbproject.ui.main
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.FabPosition
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,9 +42,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.android.material.transition.MaterialFadeThrough
 import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.theme.maruBuri_Light
 import kr.tr.commom.R
+import kr.tr.commom.theme.CustomMaterialTheme
+import kr.tr.commom.utill.Crossfade
+import kr.tr.commom.utill.MaterialMotionNavHost
+import kr.tr.commom.utill.materialSharedAxisZIn
+import kr.tr.commom.utill.materialSharedAxisZOut
+import kr.tr.commom.utill.rememberMaterialMotionNavController
 import kr.tr.home.navigation.homeScreen
 import me.nikhilchaudhari.library.NeuInsets
 import me.nikhilchaudhari.library.neumorphic
@@ -59,12 +68,8 @@ import me.nikhilchaudhari.library.shapes.Punched
 @Preview
 @Composable
 fun MainScreen() {
-         SettingUpBottomNavigationBarAndCollapsing()
+    SettingUpBottomNavigationBarAndCollapsing()
 }
-
-
-private var testPage : Int = 0
-
 
 
 @Composable
@@ -75,11 +80,13 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
 
     Scaffold(modifier = Modifier,
         snackbarHost = { SnackbarHost(snackbarHostState) },
+
         floatingActionButtonPosition = FabPosition.Center,
+
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(NavigationItem.mainHome.route)
+
                 }, modifier = Modifier
 
                     .padding(6.dp)
@@ -95,7 +102,7 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(
-                        id = NavigationItem.Companion.bottomNavigationItems.get(testPage).icon
+                        id = NavigationItem.Companion.bottomNavigationItems.get(0).icon
                     ), contentDescription = "Home", modifier = Modifier
                         .clickable {
 
@@ -113,19 +120,27 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
             )
         }) {
         it
-        MainScreenNavigationConfigurations(navController)
+        Crossfade(targetState = snackbarHostState,
+            modifier = Modifier.padding()
+        ) {
+            MainScreenNavigationConfigurations(navController)
+        }
 
 
     }
 }
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainScreenNavigationConfigurations(
     navController: NavHostController,
 ) {
-    NavHost(navController,
-        startDestination = NavigationItem.mainHome.route) {
+
+    NavHost(
+        navController,
+        startDestination = NavigationItem.mainHome.route + "/1",
+        ) {
         homeScreen(navController)
     }
 }
@@ -136,73 +151,77 @@ fun BottomNavigationBar(modifier: Modifier, navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     BottomAppBar(
-        backgroundColor = colorResource(id = R.color.white), modifier = modifier
-        , cutoutShape = CircleShape
+        backgroundColor = colorResource(id = R.color.white),
+        modifier = modifier,
+        cutoutShape = CircleShape
     ) {
 
-        Row(modifier = Modifier
-            .fillMaxHeight()
+        Row(
+            modifier = Modifier
+                .fillMaxHeight()
 
         ) {
-            BottomNavigation(modifier = Modifier
-                .fillMaxHeight()
-                .graphicsLayer { clip = true },
+            BottomNavigation(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .graphicsLayer { clip = true },
                 backgroundColor = Color.White
-         ) {
+            ) {
                 NavigationItem.Companion.bottomNavigationItems.forEachIndexed { index, item ->
-                if (index in 2..5) {
+                    if (index in 2..5) {
 
-                    BottomNavigationItem(icon = {
-                        Icon(
-                            ImageVector.vectorResource(
-                                id = item.icon,
-                            ), contentDescription = item.route,
-                            modifier = Modifier
-                                .padding(bottom = 10.dp)
-                                .fillMaxWidth(0.5f)
-                                .fillMaxHeight(0.5f)
-                        )
-                    },
-                        label = {
-                            Text(
-                                text = item.title, fontFamily = maruBuri_Light,
-
+                        BottomNavigationItem(icon = {
+                            Icon(
+                                ImageVector.vectorResource(
+                                    id = item.icon,
+                                ), contentDescription = item.route,
+                                modifier = Modifier
+                                    .padding(bottom = 10.dp)
+                                    .fillMaxWidth(0.5f)
+                                    .fillMaxHeight(0.5f)
                             )
                         },
-                        selectedContentColor = Color.Black,
-                        unselectedContentColor = Color.Black.copy(0.4f),
-                        alwaysShowLabel = true,
-                        modifier = Modifier
-                            .background(Color.White)
-                            .padding(5.dp),
-                        selected = currentRoute == item.route,
-                        onClick = {
-                            navController.navigate(item.route) {
-                                navController.graph.startDestinationRoute?.let { route ->
-                                    popUpTo(route) {
-                                        saveState = true
+                            label = {
+                                Text(
+                                    text = item.title,
+                                    fontFamily = CustomMaterialTheme.typography.thejamsiloftlight,
+
+                                    )
+                            },
+                            selectedContentColor = Color.Black,
+                            unselectedContentColor = Color.Black.copy(0.4f),
+                            alwaysShowLabel = true,
+                            modifier = Modifier
+                                .background(Color.White)
+                                .padding(5.dp),
+                            selected = currentRoute == item.route,
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    navController.graph.startDestinationRoute?.let { route ->
+                                        popUpTo(route) {
+                                            saveState = true
+                                        }
                                     }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        })
+                            })
 
-                    if( index == 3 ){
-                        Box(
-                            modifier = modifier
-                                .fillMaxHeight()
-                                .fillMaxWidth(0.2f)
-                        )
+                        if (index == 3) {
+                            Box(
+                                modifier = modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth(0.2f)
+                            )
+                        }
+
                     }
-
                 }
             }
         }
-        }
-
-        }
 
     }
+
+}
 
 

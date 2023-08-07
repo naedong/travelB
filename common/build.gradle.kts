@@ -51,15 +51,24 @@ dependencies {
 
     implementation(Libraries.coil.coil)
 
+
+
     implementation(Libraries.compose.coreKtx)
     implementation(Libraries.appCompat.appCompat)
     implementation(Libraries.compose.material.materialVersion)
     implementation(Libraries.compose.material.material3window)
 
-    implementation(Libraries.compose.ui.constraintLayout)
+    implementation(Libraries.compose.material.materialAnimation)
+    implementation(Libraries.nav.nav)
 
+
+
+    implementation(Libraries.compose.ui.composeUiUtill)
+    implementation(Libraries.compose.ui.constraintLayout)
+    implementation(Libraries.compose.ui.composePaging)
     implementation(Libraries.compose.material.material3Compose)
-    implementation("androidx.navigation:navigation-runtime-ktx:2.6.0")
+    implementation(Libraries.anim.animationAndroid)
+    implementation(Libraries.nav.navRun)
     testImplementation(Libraries.junit.junit)
     androidTestImplementation(Libraries.junit.extJunit)
     androidTestImplementation(Libraries.junit.esprressoCore)

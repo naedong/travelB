@@ -1,16 +1,11 @@
 package kr.tr.data.mapper
 
 import kr.tr.commom.utill.DataPreprocessing
-import kr.tr.data.model.ResponseHeader
 import kr.tr.data.model.asBusan
-import kr.tr.data.model.item.ResponseBusanCultureExhibitDetailItem
 import kr.tr.data.model.item.ResponseFestivalService
 import kr.tr.data.model.item.ResponseGetFestivalKrItem
 import kr.tr.domain.model.Header
-import kr.tr.domain.model.item.BusanCultureExhibitDetail
-import kr.tr.domain.model.item.BusanCultureExhibitDetailItem
 import kr.tr.domain.model.item.FestivalService
-import kr.tr.domain.model.item.GetBusanCultreExhibitDetail
 import kr.tr.domain.model.item.GetFestivalKr
 import kr.tr.domain.model.item.GetFestivalKrItem
 import retrofit2.Response
@@ -22,7 +17,6 @@ import retrofit2.Response
  * Time: 오후 4:52
  */
 fun Response<ResponseFestivalService>.asBusan() : Response<FestivalService>{
-
     return Response.success(body()?.let {
          FestivalService(
             GetFestivalKr(
@@ -34,9 +28,7 @@ fun Response<ResponseFestivalService>.asBusan() : Response<FestivalService>{
             )
         )
     })
-      }
-
-
+}
 fun ResponseGetFestivalKrItem.asBusan(): GetFestivalKrItem {
     return GetFestivalKrItem(
         addr1 =  addr1,
@@ -62,4 +54,3 @@ fun ResponseGetFestivalKrItem.asBusan(): GetFestivalKrItem {
         usageDayWeekAndTime = usageDayWeekAndTime
     )
 }
-

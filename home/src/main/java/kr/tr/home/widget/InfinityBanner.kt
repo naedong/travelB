@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -51,7 +54,7 @@ fun InfiniteLoopPager(
         Color.Cyan
     )
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState() {list.size}
 
     // 초기페이지 설정. 한번만 실행되기 원하니 key 는 Unit|true.
     LaunchedEffect(key1 = Unit) {
@@ -102,25 +105,35 @@ fun InfiniteLoopPager(
     Box(modifier = modifier
         .fillMaxHeight(),
      contentAlignment = Alignment.Center) {
+        // index % (list.size) 나머지 값으로 인덱스 가져오기. 안전하게 getOrNull 처리.
+
+//            CarouselItem()
         HorizontalPager(
-            pageCount = Int.MAX_VALUE,
             modifier = Modifier.aspectRatio(16f / 9f)
                 .clip(shape = RoundedCornerShape(10.dp)), // PageSize.Fill 상태에서 비율만 줘보기.
             state = pagerState,
-            pageSpacing = 5.dp
-        ) { index ->
-            // index % (list.size) 나머지 값으로 인덱스 가져오기. 안전하게 getOrNull 처리.
+            pageSpacing = 5.dp,
+            userScrollEnabled = true,
+            reverseLayout = false,
+            contentPadding = PaddingValues(0.dp),
+            beyondBoundsPageCount = 0,
+            pageSize = PageSize.Fill,
+           key = null,
+
+            ){
+                // index % (list.size) 나머지 값으로 인덱스 가져오기. 안전하게 getOrNull 처리.
 
 //            CarouselItem()
 
-            list.getOrNull(index % (list.size))?.let { color ->
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = color)
-                )
+                list.getOrNull(it % (list.size))?.let { color ->
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = color)
+                    )
+                }
             }
-        }
+
         PagerIndicator(
             state = pagerState,
             modifier = Modifier

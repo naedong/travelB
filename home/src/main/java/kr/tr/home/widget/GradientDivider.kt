@@ -47,7 +47,7 @@ fun getGradientDivider() {
     GradientDivider(
         modifer = Modifier
             .fillMaxWidth(0.8f)
-            .padding(top = 30.dp)
+            .padding(top = 15.dp)
             .clip(shape = RoundedCornerShape(3.dp)),
         colors = listOf(
             CustomMaterialTheme.colorScheme.mySchemePrimary,

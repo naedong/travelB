@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +36,7 @@ fun HomeSchedulePage(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.9f)
+            .fillMaxHeight()
     ) {
 
         MainScheudleItem(navController)
@@ -47,6 +52,8 @@ fun MainScheudleItem(navController: NavHostController) {
 
     val festivalServiceModel =
         viewModel.festivalServiceModel.collectAsLazyPagingItems()
+
+    var showDetail by rememberSaveable { mutableStateOf(false) }
 
 
 
@@ -79,7 +86,11 @@ fun MainScheudleItem(navController: NavHostController) {
                     loadState.refresh is LoadState.Loading -> {
                         item {
                             // refresh 올 위치
-                            CircularProgressIndicator()
+                            if(!showDetail) {
+                                CircularProgressIndicator()
+                                showDetail = true
+                            }
+
 
                         }
                     }
@@ -90,7 +101,7 @@ fun MainScheudleItem(navController: NavHostController) {
 //                            androidx.compose.material3.Text(text = "Loading more data...")
                             Box(
                                 modifier = Modifier
-                                    .height(60.dp)
+                                    .height(140.dp)
                                     .zIndex(0f)
                                     .fillMaxWidth()
                                     .padding(top = 80.dp, bottom = 20.dp)
@@ -107,7 +118,7 @@ fun MainScheudleItem(navController: NavHostController) {
 //                            Log.e("TrevalB",  "Error: $errorMessage")
                             Box(
                                 modifier = Modifier
-                                    .height(60.dp)
+                                    .height(140.dp)
                                     .zIndex(0f)
                                     .fillMaxWidth()
                                     .padding(top = 80.dp, bottom = 20.dp)
@@ -124,7 +135,7 @@ fun MainScheudleItem(navController: NavHostController) {
 //                            Log.e("TrevalB",  "Error: $errorMessage")
                             Box(
                                 modifier = Modifier
-                                    .height(60.dp)
+                                    .height(140.dp)
                                     .zIndex(0f)
                                     .fillMaxWidth()
                                     .padding(top = 80.dp, bottom = 20.dp)
@@ -143,5 +154,22 @@ fun MainScheudleItem(navController: NavHostController) {
 
 }
 
+@Composable
+fun <T : Any> Navigation(
+    currentScreen: T,
+    modifier: Modifier = Modifier,
+    content: @Composable (T) -> Unit
+) {
+    // create SaveableStateHolder.
+    val saveableStateHolder = rememberSaveableStateHolder()
+    Box(modifier) {
+        // Wrap the content representing the `currentScreen` inside `SaveableStateProvider`.
+        // Here you can also add a screen switch animation like Crossfade where during the
+        // animation multiple screens will be displayed at the same time.
+        saveableStateHolder.SaveableStateProvider(currentScreen) {
+            content(currentScreen)
+        }
+    }
+}
 
 

@@ -8,11 +8,8 @@ plugins {
 android {
     namespace = "kr.tr.home"
     compileSdk = AppConfig.compildSdk
-
     defaultConfig {
         minSdk = AppConfig.minSdk
-
-
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -70,7 +67,7 @@ dependencies {
 
     // navigation
     implementation(Libraries.nav.nav)
-  //  implementation(Libraries.nav.hiltNav)
+    //  implementation(Libraries.nav.hiltNav)
 
     // UI
     implementation(Libraries.compose.ui.composeUiUtill)
@@ -81,7 +78,6 @@ dependencies {
     // view model
     implementation(Libraries.viewModel.viewModelScope)
     implementation(Libraries.compose.ui.composeRuntime)
-
 
     implementation(Libraries.compose.ui.accompanistPager)
     implementation(Libraries.compose.ui.accompanistPagerIndicators)
@@ -94,12 +90,11 @@ dependencies {
     //hilt
     implementation(Libraries.dagger.hiltAndroid)
 //    runtimeOnly(Libraries.nav.hiltNav)
-    // kapt to ksp
 
     //hilt
     ksp(Libraries.dagger.hiltAndroidCompiler)
     implementation(Libraries.nav.hiltNav)
-//
+
 
     androidTestImplementation(Libraries.junit.extJunit)
     androidTestImplementation(Libraries.junit.esprressoCore)

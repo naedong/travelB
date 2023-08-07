@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import com.google.android.material.transition.MaterialContainerTransform
 import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.theme.CustomMaterialTheme
 import kr.tr.commom.utill.TypeConvetor
@@ -41,6 +42,8 @@ fun CardItem(
     classPath: GetFestivalKrItem,
     nav: NavHostController,
 ) {
+
+
 
     Card(
 

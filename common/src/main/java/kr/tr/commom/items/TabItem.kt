@@ -16,11 +16,13 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -63,19 +66,25 @@ fun TabItem(
 
     val tabBallColor : Color by animateColorAsState(
         targetValue = when(colors){
-
             CustomMaterialTheme.colorScheme.mySchemePrimary -> Color.Magenta
             CustomMaterialTheme.colorScheme.mySchemeSecondary -> Color.Green
             else -> Color.Blue
         },
     )
 
-    ConstraintLayout(modifier = Modifier.fillMaxHeight())
+
+
+    ConstraintLayout(modifier = Modifier.fillMaxHeight()
+
+
+    )
     {
         val (textView, box, ball) = createRefs()
 
         Text(
+
             modifier = Modifier
+                .zIndex(1f)
                 .constrainAs(textView)
                 {
                     centerTo(parent)
@@ -91,35 +100,17 @@ fun TabItem(
 
             Box(modifier = Modifier
                 .size(20.dp)
-                .drawBehind {
-                    drawRoundRect(
-                        color = Color.White,
-                        topLeft = Offset(x = -size.height / 2.7f, size.height / 2),
-                        size = Size(width = size.width * 1.8f, height = size.height / 2),
-                        cornerRadius = CornerRadius(y = 0f, x = 0f),
-                        colorFilter = ColorFilter.colorMatrix(colorMatrix = ColorMatrix()),
-
-                        )
-                    drawRoundRect(
-                        color = colors,
-                        topLeft = Offset(x = -size.height, 0f),
-                        size = size,
-                        cornerRadius = CornerRadius(y = 40f, x = 40f)
-                    )
-                    drawRoundRect(
-                        color = colors,
-                        topLeft = Offset(x = size.height, 0f),
-                        size = size,
-                        cornerRadius = CornerRadius(y = 40f, x = 40f)
-                    )
-                }
+                .zIndex(1f)
+//                .drawBehind {
+//
+//                }
                 .clip(CircleShape)
-                .background(Color.White)
                 .constrainAs(box) {
                     top.linkTo(textView.bottom, margin = 8.dp)
                     start.linkTo(textView.start)
                     end.linkTo(textView.end)
                 })
+
 
 
 
@@ -142,3 +133,23 @@ fun TabItem(
 
 }
 
+
+//drawRoundRect(
+//color = Color.White,
+//topLeft = Offset(x = -size.height / 2.7f, size.height / 2),
+//size = Size(width = size.width * 1.8f, height = size.height / 2),
+//cornerRadius = CornerRadius(y = 0f, x = 0f),
+//colorFilter = ColorFilter.colorMatrix(colorMatrix = ColorMatrix()),
+//)
+//drawRoundRect(
+//color = colors,
+//topLeft = Offset(x = -size.height, 0f),
+//size = size,
+//cornerRadius = CornerRadius(y = 40f, x = 40f)
+//)
+//drawRoundRect(
+//color = colors,
+//topLeft = Offset(x = size.height, 0f),
+//size = size,
+//cornerRadius = CornerRadius(y = 40f, x = 40f)
+//)
