@@ -1,5 +1,8 @@
 package kr.tr.travelbproject.ui.main
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.FabPosition
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,17 +45,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.android.material.transition.MaterialFadeThrough
+import kr.com.map.navigation.mapScreen
 import kr.tr.commom.items.NavigationItem
-import kr.tr.commom.theme.maruBuri_Light
 import kr.tr.commom.R
 import kr.tr.commom.theme.CustomMaterialTheme
 import kr.tr.commom.utill.Crossfade
-import kr.tr.commom.utill.MaterialMotionNavHost
-import kr.tr.commom.utill.materialSharedAxisZIn
-import kr.tr.commom.utill.materialSharedAxisZOut
-import kr.tr.commom.utill.rememberMaterialMotionNavController
 import kr.tr.home.navigation.homeScreen
+import kr.tr.travelbproject.navigation.mainScreen
+import kr.tr.travelbproject.ui.viewmodel.ChangeIcon
 import me.nikhilchaudhari.library.NeuInsets
 import me.nikhilchaudhari.library.neumorphic
 import me.nikhilchaudhari.library.shapes.Punched
@@ -71,10 +71,17 @@ fun MainScreen() {
     SettingUpBottomNavigationBarAndCollapsing()
 }
 
+fun testToast(context : Context, message : String ){
+    Log.e("TOAST","Click")
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+}
 
 @Composable
 fun SettingUpBottomNavigationBarAndCollapsing() {
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val homeIcon = ChangeIcon()
+    val custom = LocalContext.current
     val navController = rememberNavController()
 
 
@@ -100,16 +107,44 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
 
                     ), backgroundColor = Color.Black
             ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(
-                        id = NavigationItem.Companion.bottomNavigationItems.get(0).icon
-                    ), contentDescription = "Home", modifier = Modifier
-                        .clickable {
+                homeIcon.value.value?.let{
+                    Icon(
+                        imageVector = ImageVector.vectorResource(
+                            id =
+                            NavigationItem.Companion.bottomNavigationItems.get(it).icon
 
-                        }
-                        .size(80.dp)
-                        .background(Color.White)
-                )
+                        ), contentDescription = "Home", modifier = Modifier
+                            .clickable {
+                                testToast(custom, "에러가 뭐지")
+                                navController.navigate(NavigationItem.mainHome.route){
+                                    popUpTo(NavigationItem.mainHome.route){
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                            .size(80.dp)
+                            .background(Color.White)
+                    )
+                } ?: run {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(
+                            id =
+                            NavigationItem.Companion.bottomNavigationItems.get(0).icon
+
+                        ), contentDescription = "Home", modifier = Modifier
+                            .clickable {
+                                testToast(custom, "click")
+                                navController.navigate(NavigationItem.mainHome.route){
+                                    popUpTo(NavigationItem.mainHome.route){
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                            .size(80.dp)
+                            .background(Color.White)
+                    )
+                }
+
             }
         },
         isFloatingActionButtonDocked = true,
@@ -123,7 +158,7 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
         Crossfade(targetState = snackbarHostState,
             modifier = Modifier.padding()
         ) {
-            MainScreenNavigationConfigurations(navController)
+            MainScreenNavigationConfigurations(navController, homeIcon)
         }
 
 
@@ -135,13 +170,27 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
 @Composable
 fun MainScreenNavigationConfigurations(
     navController: NavHostController,
-) {
+    homeIcon: ChangeIcon,
+
+    ) {
 
     NavHost(
         navController,
         startDestination = NavigationItem.mainHome.route + "/1",
         ) {
-        homeScreen(navController)
+        mainScreen(navController){
+            homeIcon.decreaseZero()
+        }
+        homeScreen(navController){
+            homeIcon.decreaseZero()
+        }
+
+
+        mapScreen(navController){
+            homeIcon.increaseOne()
+        }
+
+
     }
 }
 

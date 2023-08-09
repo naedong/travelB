@@ -11,9 +11,7 @@ import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.utill.TypeConvetor
 import kr.tr.domain.model.item.GetFestivalKrItem
 import kr.tr.home.view.HomeScreenRoute
-import kr.tr.home.view.schedule.HomeSchedulePageScreen
 import kr.tr.home.view.schedule.ScheduleDetailPage
-import kr.tr.home.view.ticket.HomeTicketingPageScreen
 
 /**
  * TravelBProject
@@ -21,7 +19,7 @@ import kr.tr.home.view.ticket.HomeTicketingPageScreen
  * Date: 2023-07-27
  * Time: 오후 11:06
  */
-fun NavGraphBuilder.homeScreen(navController: NavHostController) {
+fun NavGraphBuilder.homeScreen(navController: NavHostController, function: () -> Unit) {
     composable(route = NavigationItem.mainHome.route +"/{index}",
         arguments = listOf(
             navArgument("index"){

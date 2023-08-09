@@ -66,51 +66,63 @@ fun TabItem(
 
     val tabBallColor : Color by animateColorAsState(
         targetValue = when(colors){
+
             CustomMaterialTheme.colorScheme.mySchemePrimary -> Color.Magenta
             CustomMaterialTheme.colorScheme.mySchemeSecondary -> Color.Green
             else -> Color.Blue
         },
     )
 
-
-
-    ConstraintLayout(modifier = Modifier.fillMaxHeight()
-
-
-    )
+    ConstraintLayout(modifier = Modifier.fillMaxHeight())
     {
         val (textView, box, ball) = createRefs()
 
         Text(
-
             modifier = Modifier
-                .zIndex(1f)
                 .constrainAs(textView)
                 {
                     centerTo(parent)
                 },
             text = text,
             color = tabTextColor,
-            fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
+            fontFamily = maruburi_bold,
             fontSize = 22.sp,
 
-        )
+            )
 
         if (isSelected) {
 
             Box(modifier = Modifier
                 .size(20.dp)
-                .zIndex(1f)
-//                .drawBehind {
-//
-//                }
+                .drawBehind {
+                    drawRoundRect(
+                        color = Color.White,
+                        topLeft = Offset(x = -size.height / 2.7f, size.height / 2),
+                        size = Size(width = size.width * 1.8f, height = size.height / 2),
+                        cornerRadius = CornerRadius(y = 0f, x = 0f),
+                        colorFilter = ColorFilter.colorMatrix(colorMatrix = ColorMatrix()),
+
+                        )
+                    drawRoundRect(
+                        color = colors,
+                        topLeft = Offset(x = -size.height, 0f),
+                        size = size,
+                        cornerRadius = CornerRadius(y = 40f, x = 40f)
+                    )
+                    drawRoundRect(
+                        color = colors,
+                        topLeft = Offset(x = size.height, 0f),
+                        size = size,
+                        cornerRadius = CornerRadius(y = 40f, x = 40f)
+                    )
+                }
                 .clip(CircleShape)
+                .background(Color.White)
                 .constrainAs(box) {
                     top.linkTo(textView.bottom, margin = 8.dp)
                     start.linkTo(textView.start)
                     end.linkTo(textView.end)
                 })
-
 
 
 
@@ -133,23 +145,3 @@ fun TabItem(
 
 }
 
-
-//drawRoundRect(
-//color = Color.White,
-//topLeft = Offset(x = -size.height / 2.7f, size.height / 2),
-//size = Size(width = size.width * 1.8f, height = size.height / 2),
-//cornerRadius = CornerRadius(y = 0f, x = 0f),
-//colorFilter = ColorFilter.colorMatrix(colorMatrix = ColorMatrix()),
-//)
-//drawRoundRect(
-//color = colors,
-//topLeft = Offset(x = -size.height, 0f),
-//size = size,
-//cornerRadius = CornerRadius(y = 40f, x = 40f)
-//)
-//drawRoundRect(
-//color = colors,
-//topLeft = Offset(x = size.height, 0f),
-//size = size,
-//cornerRadius = CornerRadius(y = 40f, x = 40f)
-//)
