@@ -68,6 +68,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(mapOf("path" to ":domain")))
 
+
     implementation(Libraries.compose.coreKtx)
     implementation(Libraries.appCompat.appCompat)
     implementation(Libraries.compose.material.materialVersion)
@@ -104,10 +105,20 @@ dependencies {
     ksp(Libraries.dagger.hiltAndroidCompiler)
     implementation(Libraries.nav.hiltNav)
 
+    // room
+    implementation(Libraries.room.roomCompiler)
+    implementation(Libraries.room.roomRuntime)
 
     androidTestImplementation(Libraries.junit.extJunit)
     androidTestImplementation(Libraries.junit.esprressoCore)
 
+    //liveData
+    runtimeOnly(Libraries.livedata.liveData)
+    implementation(Libraries.livedata.liveData)
+
+
+
+    implementation(Libraries.perssion.permission)
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(files("libs/libDaumMapAndroid.jar"))

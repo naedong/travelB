@@ -33,6 +33,11 @@ android {
 
 }
 dependencies {
+    implementation(fileTree(mapOf("dir" to "../map/libs", "include" to listOf("*.jar"))))
+    implementation(files("../map/libs/libDaumMapAndroid.jar"))
+    // Data Store
+    implementation(Libraries.dataStore.preferencesData)
+
 
     implementation(project(mapOf("path" to ":common")))
 

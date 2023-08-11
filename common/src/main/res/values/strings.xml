@@ -14,4 +14,33 @@
     <string name="setting_material_you">Material You</string>
     <string name="setting_theme">Theme</string>
 
+
+
+    <string name="AlertDialog_message_request_location_permission">현재 위치를 확인하시려면 위치 권한을 허용해 주세요.</string>
+    <string name="AlertDialog_button_ok">확인</string>
+    <string name="AlertDialog_button_cancel">취소</string>
+
+    <string name="Toast_location_permission_denied">@string/AlertDialog_message_request_location_permission</string>
+    <string name="Toast_search_failure">검색에 실패했습니다. 잠시 후 다시 시도해 주세요.</string>
+    <string name="Toast_empty_search">검색 결과가 없습니다.</string>
+    <string name="Toast_empty_favorite">즐겨찾기 결과가 없습니다.</string>
+    <string name="Toast_empty_query">검색어를 입력해주세요.</string>
+
+    <string name="ContentDescription_fab_tracking">위치 추적 버튼</string>
+    <string name="ContentDescription_list_mode">목록 모드 버튼</string>
+
+    <string name="MainActivity_search_bar">주소 검색</string>
+    <string name="MainActivity_food">맛집</string>
+    <string name="MainActivity_cafe">카페</string>
+    <string name="MainActivity_convenience">편의점</string>
+    <string name="MainActivity_flower">꽃집</string>
+    <string name="MainActivity_favorite">즐겨찾기</string>
+
+    <string name="DocumentViewHolder_rate">평점 %1$s</string>
+
+    <string name="SearchActivity_title">@string/MainActivity_search_bar</string>
+    <string name="SearchActivity_empty">검색 결과가 없습니다.</string>
+
+    <string name="FavoriteActivity_title">@string/MainActivity_favorite</string>
+    <string name="FavoriteActivity_empty">즐겨찾기한 장소가 없습니다.</string>
 </resources>

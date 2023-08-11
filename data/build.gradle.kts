@@ -52,10 +52,15 @@ android {
     }
 }
 dependencies {
-    implementation(project(mapOf("path" to ":domain")))
+
+
+
+
+    implementation(project(":domain"))
     implementation(project(mapOf("path" to ":common")))
 
-    implementation(Libraries.annotationVersion)
+    // annotation
+    implementation(Libraries.annotation.annotation)
 
     // coroutine
     implementation(Libraries.coroutines.coroutineCore)
@@ -73,5 +78,8 @@ dependencies {
     implementation(Libraries.network.okhttp3)
     implementation(Libraries.network.convertorGson)
     implementation(Libraries.network.okhttp3Logging)
+
+
+
 
 }

@@ -3,7 +3,7 @@ package kr.tr.travelbproject.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import kr.com.map.view.MapRouter
+import kr.com.map.presentation.main.MapRouter
 import kr.tr.commom.items.NavigationItem
 
 /**

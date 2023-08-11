@@ -154,7 +154,7 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
                 modifier = Modifier.fillMaxHeight(0.1f), navController
             )
         }) {
-        it
+        Log.e("padding", "${it}")
         Crossfade(targetState = snackbarHostState,
             modifier = Modifier.padding()
         ) {

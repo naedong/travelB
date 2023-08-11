@@ -70,7 +70,7 @@ fun HomeMainPage(navController: NavHostController) {
 
         Box(
             modifier = Modifier
-                .height(150.dp)
+                .height(120.dp)
                 .zIndex(0f)
                 .fillMaxWidth()
                 .padding(top = 80.dp, bottom = 20.dp)

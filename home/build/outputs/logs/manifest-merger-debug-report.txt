@@ -1,25 +1,25 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml:2:13-83
-INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml:2:13-83
-INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml:2:13-83
+ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml:2:13-83
+INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml:2:13-83
+INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml:2:13-83
 	package
-		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
-		ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml:2:13-83
-		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
+		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
+		ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml:2:13-83
+		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
 	xmlns:android
-		ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml:2:23-81
+		ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml:2:23-81
 uses-sdk
-INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml reason: use-sdk injection requested
-INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
-INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
-INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
-INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
+INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml reason: use-sdk injection requested
+INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
+INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
+INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
+INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
 	android:targetSdkVersion
-		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
-		ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
-		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
+		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
+		ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
+		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
 	android:minSdkVersion
-		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
-		ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
-		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest9041115774727468425.xml
+		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
+		ADDED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml
+		INJECTED from D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1462341579511149162.xml

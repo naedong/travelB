@@ -5,7 +5,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kr.tr.domain.datasource.AttrationServiceDataSource
-import kr.tr.domain.model.item.AttractionServiceItem
 import kr.tr.domain.model.item.GetAttractionKrItem
 import kr.tr.domain.usecase.AttrationServiceUseCase
 import javax.inject.Inject
