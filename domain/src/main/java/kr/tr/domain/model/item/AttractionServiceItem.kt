@@ -1,5 +1,9 @@
 package kr.tr.domain.model.item
 
+import android.os.Parcelable
+import androidx.compose.runtime.Immutable
+import androidx.paging.compose.LazyPagingItems
+import kotlinx.android.parcel.Parcelize
 import kr.tr.domain.model.Header
 
 
@@ -14,7 +18,7 @@ data class GetAttractionKr(
     val pageNo: Int,
     val totalCount: Int
 )
-
+@Parcelize
 data class GetAttractionKrItem(
     val addr1: String,
     val cntctTel: String,
@@ -36,4 +40,8 @@ data class GetAttractionKrItem(
     val usageAmount: String,
     val usageDay: String,
     val usageDayWeekAndTime: String
-)
+) : Parcelable
+
+@Immutable
+@Parcelize
+data class GetAttractionKrItemWrapper(var item: GetAttractionKrItem?) : Parcelable

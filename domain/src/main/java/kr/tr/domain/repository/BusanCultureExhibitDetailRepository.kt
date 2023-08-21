@@ -17,7 +17,8 @@ import javax.inject.Inject
  */
 class BusanCultureExhibitDetailRepository @Inject constructor(
     private val busanCultureExhibitDetailUseCase: BusanCultureExhibitDetailUseCase
-) {
+)
+{
     fun getBusanCultureExhibitDetailPagingItem() : Flow<PagingData<BusanCultureExhibitDetailItem>> {
         return Pager(PagingConfig(
             pageSize = 20,
@@ -28,7 +29,6 @@ class BusanCultureExhibitDetailRepository @Inject constructor(
                 busanCultureExhibitDetailUseCase
             )
         }.flow
-
     }
 
 }

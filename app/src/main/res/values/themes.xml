@@ -5,6 +5,10 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
 
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/korealogo</item>
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
 
+        <item name="postSplashScreenTheme">@style/Theme.TravelBProject</item>
     </style>
 </resources>

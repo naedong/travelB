@@ -1,5 +1,7 @@
 package kr.tr.domain.model.item
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kr.tr.domain.model.Header
 
 /**
@@ -8,6 +10,7 @@ import kr.tr.domain.model.Header
  * Date: 2023-07-27
  * Time: 오전 10:51
  */
+@Parcelize
 data class BusanCultureExhibitDetailItem(
     val avgStar: Double,
     val crew: String,
@@ -25,7 +28,10 @@ data class BusanCultureExhibitDetailItem(
     val showtime: String,
     val theme: String,
     val title: String
-)
+) : Parcelable
+
+
+
 
 data class BusanCultureExhibitDetail(
     val header: Header,

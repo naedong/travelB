@@ -13,6 +13,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,11 +22,15 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,14 +49,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
+import kotlinx.coroutines.launch
 import kr.tr.commom.font.maruburi_bold
+import kr.tr.commom.items.indicator.TabIndicator
 import kr.tr.commom.theme.CustomMaterialTheme
 import kr.tr.commom.theme.mainPurpleColor
 
 
 @Composable
 fun TabItem(
-    colors : Color,
+    colors: Color,
     isSelected: Boolean,
     tabWidth: Dp,
     text: String,
@@ -64,8 +71,8 @@ fun TabItem(
         }
     )
 
-    val tabBallColor : Color by animateColorAsState(
-        targetValue = when(colors){
+    val tabBallColor: Color by animateColorAsState(
+        targetValue = when (colors) {
 
             CustomMaterialTheme.colorScheme.mySchemePrimary -> Color.Magenta
             CustomMaterialTheme.colorScheme.mySchemeSecondary -> Color.Green
@@ -144,4 +151,76 @@ fun TabItem(
 
 
 }
+
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun CustomTab(
+    tabItems: List<String>,
+    modifier: Modifier = Modifier,
+    tabWidth: Dp = 100.dp,
+    pagerState: PagerState,
+    backStackEntry: String = "0",
+
+    ) {
+
+    val coroutine = rememberCoroutineScope()
+
+
+    LaunchedEffect(true) {
+        coroutine.launch {
+                pagerState.scrollToPage(backStackEntry.toInt())
+        }
+    }
+
+
+    val colors by animateColorAsState(
+        (when (pagerState.currentPage) {
+            0 -> CustomMaterialTheme.colorScheme.mySchemePrimary
+            1 -> CustomMaterialTheme.colorScheme.mySchemeSecondary
+            else -> CustomMaterialTheme.colorScheme.mySchemeOnPrimary
+        })
+    )
+
+    TabRow(selectedTabIndex = pagerState.currentPage,
+        containerColor = Color.Cyan.copy(0.1f),
+        contentColor = Color.Green.copy(0.1f),
+        modifier = Modifier.zIndex(0f),
+
+        // delete underLine
+        divider = { },
+        indicator = {
+            TabIndicator(indicatorColor = colors)
+        }) {
+        tabItems.forEachIndexed { index, item ->
+            Box(
+                modifier = modifier
+                    .clickable {
+                        coroutine.launch {
+                            pagerState.scrollToPage(index)
+                        }
+                    }
+                    .zIndex(1f)
+                    .fillMaxHeight(0.18f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center)
+            {
+                TabItem(
+                    colors = colors,
+                    isSelected = pagerState.targetPage == index,
+                    tabWidth = tabWidth,
+                    text = item,
+
+                    )
+
+            }
+        }
+    }
+}
+
+
+
+
+
+
 

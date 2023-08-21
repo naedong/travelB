@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.tr.data.api.BusanApiService
+import kr.tr.data.api.TourismApiService
 import kr.tr.travelbproject.BuildConfig
 import okhttp3.Call
 import okhttp3.Dispatcher
@@ -99,6 +100,12 @@ object NetworkModule {
     @Provides
     fun provideTravelBService(retrofitClient: Retrofit): BusanApiService {
         return retrofitClient.create(BusanApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTravelBTourismService(retrofitClient: Retrofit): TourismApiService {
+        return retrofitClient.create(TourismApiService::class.java)
     }
 
     @Provides

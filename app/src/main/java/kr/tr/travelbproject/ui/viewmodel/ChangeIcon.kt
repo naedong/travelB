@@ -3,6 +3,8 @@ package kr.tr.travelbproject.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * TravelBProject
@@ -10,15 +12,20 @@ import androidx.lifecycle.ViewModel
  * Date: 2023-08-07
  * Time: 오후 4:30
  */
-class ChangeIcon : ViewModel() {
-    private val _value = MutableLiveData(0)
-    val value : LiveData<Int> = _value
 
-    fun increaseOne(){
-        _value.value = 1
+@HiltViewModel
+class ChangeIcon @Inject constructor(
+) : ViewModel() {
+    private val _value = MutableLiveData(false)
+    val value : LiveData<Boolean> = _value
+
+    fun toggleValue(){
+      when(_value.value){
+          true -> _value.value = false
+          else -> _value.value = true
+      }
     }
 
-    fun decreaseZero(){
-        _value.value = 0
-    }
+
+
 }

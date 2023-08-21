@@ -19,12 +19,13 @@ import kr.tr.home.view.schedule.ScheduleDetailPage
  * Date: 2023-07-27
  * Time: 오후 11:06
  */
-fun NavGraphBuilder.homeScreen(navController: NavHostController, function: () -> Unit) {
+fun NavGraphBuilder.homeScreen(navController: NavHostController) {
     composable(route = NavigationItem.mainHome.route +"/{index}",
         arguments = listOf(
             navArgument("index"){
                 type = NavType.StringType
-            }
+            },
+
         )
         ) {
         var backStackEntry = it.arguments?.getString("index")

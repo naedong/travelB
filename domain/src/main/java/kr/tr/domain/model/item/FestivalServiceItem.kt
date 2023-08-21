@@ -1,5 +1,8 @@
 package kr.tr.domain.model.item
 
+import android.os.Parcelable
+import androidx.compose.runtime.Immutable
+import kotlinx.android.parcel.Parcelize
 import kr.tr.domain.model.Header
 
 /**
@@ -21,6 +24,7 @@ data class GetFestivalKr(
     val totalCount: Int
 )
 
+@Parcelize
 data class GetFestivalKrItem(
     val addr1 : String?,
     val addr2: String?,
@@ -43,4 +47,9 @@ data class GetFestivalKrItem(
     val usageAmount: String?,
     val usageDay: String?,
     val usageDayWeekAndTime: String?
-)
+) : Parcelable
+
+
+@Immutable
+@Parcelize
+data class GetFestivalKrItemWrapper(var item: GetFestivalKrItem?) : Parcelable

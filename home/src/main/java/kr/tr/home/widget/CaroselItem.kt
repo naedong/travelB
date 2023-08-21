@@ -2,39 +2,33 @@ package kr.tr.home.widget
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerDefaults
-import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,6 +58,7 @@ import kr.tr.home.model.FestivalServiceViewModel
 import kotlin.math.absoluteValue
 
 import androidx.compose.ui.util.lerp
+import kr.tr.domain.model.item.GetAttractionKrItemWrapper
 
 /**
  * TravelBProject
@@ -75,17 +70,25 @@ import androidx.compose.ui.util.lerp
 @Composable
 fun HomeMediaCarousel(
     list: LazyPagingItems<GetAttractionKrItem>,
+
     totalItemsToShow: Int = 10,
     carouselLabel: String = "",
     autoScrollDuration: Long = 3000L,
+    savedState: MutableState<GetAttractionKrItemWrapper?>,
 ) {
+
     val pageCount = list.itemCount.coerceAtMost(totalItemsToShow)
     val pagerState: PagerState = rememberPagerState { pageCount }
     val isDragged by pagerState.interactionSource.collectIsDraggedAsState()
+
+
+    var currentPageKey by remember { mutableStateOf(0) }
+
+
     if (isDragged.not()) {
         with(pagerState) {
             if (pageCount > 0) {
-                var currentPageKey by remember { mutableStateOf(0) }
+
                 LaunchedEffect(key1 = currentPageKey) {
                     launch {
                         delay(timeMillis = autoScrollDuration)
@@ -121,7 +124,6 @@ fun HomeMediaCarousel(
                     }
                 }
             }
-
         }
         if (carouselLabel.isNotBlank()) {
             Text(
@@ -219,7 +221,14 @@ fun SlideItem(
 
     val viewModel = hiltViewModel<FestivalServiceViewModel>()
 
-    val list = viewModel.festivalServiceModel.collectAsLazyPagingItems()
+    val currentPage = viewModel.getCurrentPage()
+
+    LaunchedEffect(key1 = currentPage){
+        viewModel.saveCurrentPage(currentPage)
+    }
+
+
+    val list = viewModel.getPagingData().collectAsLazyPagingItems()
     val totalItems = 10
     val pageCount = list.itemCount.coerceAtMost(totalItems)
     val pagerState: PagerState = rememberPagerState { pageCount }
@@ -330,13 +339,14 @@ fun InfoItem(
     val viewModel = hiltViewModel<FestivalServiceViewModel>()
 
     val list = viewModel.festivalServiceModel.collectAsLazyPagingItems()
+
     val totalItems = 10
     val pageCount = list.itemCount.coerceAtMost(totalItems)
     val pagerState: PagerState = rememberPagerState { pageCount }
 
     Column(
         modifier = Modifier
-        ) {
+    ) {
         Text(
             text = "축제 정보",
             fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
@@ -361,43 +371,48 @@ fun InfoItem(
 
                     OutlinedCard(
                         modifier = Modifier
-                            .padding(12.dp)
+                            .padding(5.dp)
                             .width(150.dp)
-                            .height(180.dp),
+                            .height(150.dp),
                         border = BorderStroke(width = 1.dp, color = Color.Gray),
                         elevation = CardDefaults.cardElevation(
                             defaultElevation = 6.dp
                         ),
 
                         onClick = {},
-                        ) {
-                            Column {
-                                AsyncImage(
-                                    model = listItem.mainImgNormal,
-                                    contentDescription = null,
+                    ) {
+                        Column {
+                            AsyncImage(
+                                model = listItem.mainImgNormal,
+                                contentDescription = null,
 //            placeholder = painterResource(id = R.drawable.ic_load_placeholder),
 //            error = painterResource(id = R.drawable.ic_load_error),
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(size = 12.dp))
-                                        .height(120.dp)
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(size = 12.dp))
+                                    .height(120.dp)
+
+                            )
+                            listItem.title?.let {
+                                Text(
+                                    modifier = Modifier.padding(
+                                        start = 12.dp,
+                                        top = 5.dp
+
+                                    ),
+                                    text = it,
+                                    fontSize = 10.sp,
+                                    maxLines = 1 ,
+                                    textAlign = TextAlign.Left,
+                                    overflow = TextOverflow.Visible,
+                                    fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
 
                                 )
-                                listItem.title?.let {
-                                    Text(
-                                        modifier = Modifier.padding(start = 12.dp, top = 12.dp, bottom = 16.dp),
-                                        text = it,
-                                        fontSize = 12.sp,
-                                        textAlign = TextAlign.Left,
-                                        overflow = TextOverflow.Visible,
-                                        fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Black
-
-                                    )
-                                }
-
                             }
+
+                        }
 
                     }
 

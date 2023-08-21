@@ -41,6 +41,7 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
+import kr.tr.commom.items.CustomTab
 import kr.tr.commom.items.TabItem
 import kr.tr.commom.items.indicator.TabIndicator
 import kr.tr.commom.theme.CustomMaterialTheme
@@ -142,76 +143,6 @@ fun HomeScreenSetting(navController: NavHostController, backStackEntry: String) 
 
     }
 }
-
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun CustomTab(
-    tabItems: List<String>,
-    modifier: Modifier = Modifier,
-    tabWidth: Dp = 100.dp,
-    pagerState: PagerState,
-    backStackEntry: String,
-
-    ) {
-
-    val coroutine = rememberCoroutineScope()
-
-
-    LaunchedEffect(true) {
-        coroutine.launch {
-            pagerState.scrollToPage(backStackEntry.toInt())
-        }
-    }
-
-
-    val colors by animateColorAsState(
-        (when (pagerState.currentPage) {
-            0 -> CustomMaterialTheme.colorScheme.mySchemePrimary
-            1 -> CustomMaterialTheme.colorScheme.mySchemeSecondary
-            else -> CustomMaterialTheme.colorScheme.mySchemeOnPrimary
-        })
-    )
-
-    TabRow(selectedTabIndex = pagerState.currentPage,
-        containerColor = Color.Cyan.copy(0.1f),
-        contentColor = Color.Green.copy(0.1f),
-        modifier = Modifier.zIndex(0f),
-
-        // delete underLine
-        divider = {    },
-        indicator = {
-            TabIndicator(indicatorColor = colors)
-        }) {
-        tabItems.forEachIndexed { index, item ->
-            Box(
-                modifier = modifier
-                    .clickable {
-                        coroutine.launch {
-                            pagerState.scrollToPage(index)
-                        }
-                    }
-                    .zIndex(1f)
-                    .fillMaxHeight(0.18f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center)
-            {
-                        TabItem(
-                        colors = colors,
-                isSelected = pagerState.targetPage == index,
-                tabWidth = tabWidth,
-                text = item,
-
-                )
-
-            }
-        }
-    }
-}
-
-
-
-
 
 
 

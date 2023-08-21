@@ -149,7 +149,6 @@ fun CardItem(
                             .typography
                             .maruBuri_Light,
                     )
-
                 }
             }
         }

@@ -12,7 +12,7 @@ import kr.tr.commom.items.NavigationItem
  * Date: 2023-08-07
  * Time: 오후 4:09
  */
-fun NavGraphBuilder.mainScreen(navController: NavHostController, function: () -> Unit) {
+fun NavGraphBuilder.mainScreen(navController: NavHostController) {
     composable(
         route = NavigationItem.home.route,
     ) {
