@@ -1,25 +1,37 @@
 package kr.com.region.presentation.model
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kr.tr.domain.model.item.AreaBasedItem
+import kr.tr.domain.model.item.AreaBasedListItem
+import kr.tr.domain.repository.AreaBasedItemRepositoryInter
+import kr.tr.domain.repository.TourismRepositoryInter
+import javax.inject.Inject
+
+
 /**
  * TravelBProject
  * Created by Naedong
  * Date: 2023-08-14
  * Time: 오전 11:52
  */
-data class ListDataModel(
-    val list : List<String>
-)
+@HiltViewModel
+class ListDataModel @Inject constructor(
+    private val repository: AreaBasedItemRepositoryInter,
+    private val savedStateHandle: SavedStateHandle,
+) : ViewModel() {
 
-private val listModel =
-    listOf(
-        "강동구",
-        "금정구",
-        "기장군",
-        "남구",
-        "동구",
-        "동래구",
-        "부산진구",
-        "북구",
-        "사상구",
+    fun onChangeStored(idx: Int): Flow<PagingData<AreaBasedListItem>> {
+        return repository.getAreaBaseItemInter(idx).cachedIn(viewModelScope)
+    }
 
-    )
+
+}

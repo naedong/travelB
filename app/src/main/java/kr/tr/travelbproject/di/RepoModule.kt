@@ -6,7 +6,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.tr.data.repository.BusanRepository
 import kr.tr.data.repository.TourismRepository
+import kr.tr.data.repository.repositoryimpl.AreaBasedItemRepositroyImpl
 import kr.tr.data.repository.repositoryimpl.TourismRepositoryImpl
+import kr.tr.domain.repository.AreaBasedItemRepositoryInter
 import kr.tr.domain.repository.TourismRepositoryInter
 import kr.tr.domain.usecase.gateway.GateWay
 import kr.tr.domain.usecase.gateway.TourismGateWay
@@ -39,5 +41,13 @@ object RepoModule {
     fun provideTravelBInter(
         repositoryInter: TourismRepositoryImpl
     ) : TourismRepositoryInter = repositoryInter
+
+
+    @Singleton
+    @Provides
+    fun provideTravelBAreaBaseInter(
+        repositoryInter: AreaBasedItemRepositroyImpl
+    ) : AreaBasedItemRepositoryInter = repositoryInter
+
 
 }

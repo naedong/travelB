@@ -2,8 +2,11 @@ package kr.com.region.presentation.view.region
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -26,8 +29,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import kr.com.region.presentation.model.ListDataModel
 import kr.com.region.presentation.model.RegionViewModel
 import kr.tr.commom.theme.CustomMaterialTheme
 
@@ -38,51 +43,63 @@ import kr.tr.commom.theme.CustomMaterialTheme
  * Time: 오전 11:06
  */
 @Composable
-fun DetailRegionScreen() {
+fun DetailRegionScreen(navi: NavHostController) {
     var rememberSave by rememberSaveable { mutableStateOf(false) }
+    var rememberSaveNumber by rememberSaveable { mutableStateOf(0) }
+
+
     val viewmodel = hiltViewModel<RegionViewModel>()
     val list = viewmodel.getToruCode.collectAsLazyPagingItems()
 
     LazyColumn(
         modifier = Modifier
-                .padding(
-            top = 10.dp,
-            bottom = 90.dp
-        )){
-        items(list){
+            .padding(
+                top = 3.dp,
+                bottom = 90.dp
+            )
+    ) {
+        items(list) {
 
             it?.let { item ->
 
 
-                    Row(
-                        modifier = Modifier
-                            .padding(
-                                start = 5.dp,
-                                end = 5.dp
-                            )
-                            .width(100.dp)
-                            .height(50.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color.Black,
-                                shape = RoundedCornerShape(1.dp)
-                            )
-                            .clickable {
-                                rememberSave = true
-                            },
-                        ) {
+                Row(
+                    modifier = Modifier
+                        .padding(
+                            start = 5.dp,
+                            end = 5.dp
+                        )
+                        .width(100.dp)
+                        .height(50.dp)
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(1.dp)
+                        )
+                        .clickable {
+                            rememberSave = true
+                            rememberSaveNumber = item.rnum
+                        },
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
 
-                        Text(text = item.name,
-                            modifier = Modifier.
-                            padding(5.dp),
-                            fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
-                            fontSize = 20.sp)
+                    Text(
+                        text = item.name,
+                        modifier = Modifier.padding(5.dp),
+                        fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
+                        fontSize = 20.sp
+                    )
 
-                        Icon(imageVector = Icons.Default.KeyboardArrowRight,
-                            modifier = Modifier
-                            , contentDescription = "ArrowRight")
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowRight,
+                        modifier = Modifier.width(30.dp)
+                            .height(30.dp),
+                        contentDescription = "ArrowRight"
+                    )
 
-                    }
+
+                }
             }
 
         }
@@ -90,11 +107,19 @@ fun DetailRegionScreen() {
             when {
                 loadState.refresh is LoadState.Loading -> {
                     item {
+                        Column(modifier = Modifier.fillMaxWidth()
+                            .fillMaxHeight(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
                             CircularProgressIndicator()
+
+                        }
 
                     }
                 }
-                loadState.refresh is LoadState.Error -> { 
+
+                loadState.refresh is LoadState.Error -> {
                     val errorMessage = (loadState.refresh as LoadState.Error).error.message
                     item {
                         Text(
@@ -104,11 +129,13 @@ fun DetailRegionScreen() {
                         )
                     }
                 }
+
                 loadState.append is LoadState.Loading -> {
                     item {
 
                     }
                 }
+
                 loadState.append is LoadState.Loading -> {
                     val errorMessage = (loadState.append as LoadState.Error).error.message
                     item {
@@ -122,11 +149,72 @@ fun DetailRegionScreen() {
             }
         }
     }
-    if(rememberSave == true) {
+    if (rememberSave == true) {
+        val viewmodel = hiltViewModel<ListDataModel>()
 
-        LazyColumn {
+        val getAreaBasedListItem =
+            viewmodel.onChangeStored(rememberSaveNumber).collectAsLazyPagingItems()
 
+        LazyColumn(modifier = Modifier
+            .padding(bottom = 90.dp)
+
+        ) {
+            items(getAreaBasedListItem) { items ->
+
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            start = 5.dp,
+                            end = 5.dp,
+                        )
+                        .fillMaxWidth(0.72f)
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(1.dp)
+                        ).clickable {
+
+                        }
+                )
+                {
+
+
+                    items?.title?.let {
+                        Text(
+                            text = it,
+                            modifier = Modifier.padding(5.dp),
+                            fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
+                            fontSize = 18.sp
+                        )
+                    }
+
+                    Row() {
+
+                        items?.addr1?.let {
+                            Text(
+                                text = it,
+                                modifier = Modifier.padding(bottom = 5.dp, top = 5.dp, start = 5.dp),
+                                fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
+//                                maxLines = 1,
+//                                overflow = TextOverflow.Ellipsis,
+                                fontSize = 12.sp
+                            )
+                        }
+                        items?.addr2?.let {
+                            Text(
+                                text = it,
+                                modifier = Modifier.padding(bottom = 5.dp, top = 5.dp, start = 5.dp),
+                                fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
+                                fontSize = 12.sp
+                            )
+                        }
+
+                    }
+                }
+            }
 
         }
     }
 }
+
+

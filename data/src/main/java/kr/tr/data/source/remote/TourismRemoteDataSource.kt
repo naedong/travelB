@@ -1,5 +1,6 @@
 package kr.tr.data.source.remote
 
+import android.util.Log
 import kr.tr.data.api.TourismApiService
 import kr.tr.data.mapper.asTourism
 import kr.tr.domain.model.item.AreaBasedItem
@@ -21,10 +22,17 @@ class TourismRemoteDataSource @Inject constructor(
         return tourismApiService.getTourismServiceCodeList().asTourism()
     }
 
-    suspend fun getAreaBasedItem(sigunguCode : Int, pageNo : Int ) : Response<AreaBasedItem> = tourismApiService.getTourismAreaBasedList(
-        pageNo = pageNo,
-        sigunguCode = sigunguCode
-    ).asTourism()
+    suspend fun getAreaBasedItem(sigunguCode : Int, pageNo : Int ) : Response<AreaBasedItem> {
+     Log.e("MYCCCC", "작동확인")
+        Log.e("check", "${tourismApiService.getTourismAreaBasedList(
+            pageNo = pageNo,
+            sigunguCode = sigunguCode
+        ).asTourism()}")
+        return tourismApiService.getTourismAreaBasedList(
+            pageNo = pageNo,
+            sigunguCode = sigunguCode
+        ).asTourism()
+    }
 
 
 }

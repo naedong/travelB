@@ -19,7 +19,11 @@ fun NavGraphBuilder.regionScreen(
         RegionRouter(navController)
     }
 
+    composable(NavigationItem.region.route+"/",
 
+        ){
+
+    }
 
 
 }

@@ -61,10 +61,6 @@ class MapDataStore @Inject constructor(
             preferences[preferenceKeys.firstKey] == check
         }
     }
-    init {
-
-
-    }
 
     val isGetBoolean : Flow<Boolean> = dataStore.data
         .catch { e ->

@@ -220,15 +220,15 @@ fun SlideItem(
 ) {
 
     val viewModel = hiltViewModel<FestivalServiceViewModel>()
+//
+//    val currentPage = viewModel.getCurrentPage()
+//
+//    LaunchedEffect(key1 = currentPage){
+//        viewModel.saveCurrentPage(currentPage)
+//    }
+//
 
-    val currentPage = viewModel.getCurrentPage()
-
-    LaunchedEffect(key1 = currentPage){
-        viewModel.saveCurrentPage(currentPage)
-    }
-
-
-    val list = viewModel.getPagingData().collectAsLazyPagingItems()
+    val list = viewModel.festivalServiceModel.collectAsLazyPagingItems()
     val totalItems = 10
     val pageCount = list.itemCount.coerceAtMost(totalItems)
     val pagerState: PagerState = rememberPagerState { pageCount }
@@ -353,7 +353,7 @@ fun InfoItem(
             fontWeight = FontWeight.ExtraBold,
             fontSize = 24.sp,
             modifier = Modifier
-                .padding(start = 50.dp, top = 5.dp)
+                .padding(start = 40.dp, top = 5.dp)
         )
 
 
@@ -396,12 +396,12 @@ fun InfoItem(
                             listItem.title?.let {
                                 Text(
                                     modifier = Modifier.padding(
-                                        start = 12.dp,
+                                        start = 5.dp,
                                         top = 5.dp
 
                                     ),
                                     text = it,
-                                    fontSize = 10.sp,
+                                    fontSize = 8.sp,
                                     maxLines = 1 ,
                                     textAlign = TextAlign.Left,
                                     overflow = TextOverflow.Visible,

@@ -1,15 +1,12 @@
 package kr.com.region.presentation.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.MarqueeSpacing
-import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.snapping.SnapFlingBehavior
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerDefaults
@@ -61,6 +58,7 @@ fun RegionTab(navController: NavHostController) {
         CustomTab(tabItem, pagerState = pagerState)
 
         regionPager(
+            navi = navController,
             state = pagerState,
             pageSpacing = 0.dp,
             userScrollerEnabled = true,
@@ -79,13 +77,14 @@ fun regionPager(
     modifier: Modifier = Modifier,
     state: PagerState,
     pageSpacing: Dp,
-    userScrollerEnabled : Boolean,
-    reverseLayout : Boolean,
-    contentPadding : PaddingValues,
-    beyondBoundsPageCount : Int,
-    pageSize : PageSize = PageSize.Fill,
+    userScrollerEnabled: Boolean,
+    reverseLayout: Boolean,
+    contentPadding: PaddingValues,
+    beyondBoundsPageCount: Int,
+    pageSize: PageSize = PageSize.Fill,
     flingBehavior: SnapFlingBehavior = PagerDefaults.flingBehavior(state),
-    key : String = "",
+    key: String = "",
+    navi: NavHostController,
 ){
 
     HorizontalPager(
@@ -104,7 +103,7 @@ fun regionPager(
         }
     ) {
         when(it){
-            0 -> DetailRegionScreen()
+            0 -> DetailRegionScreen(navi)
             else -> SubWayScreen()
         }
 
