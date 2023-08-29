@@ -19,6 +19,13 @@ class ChangeIcon @Inject constructor(
     private val _value = MutableLiveData(false)
     val value : LiveData<Boolean> = _value
 
+
+    fun setValue(boolean: Boolean){
+        _value.value = boolean
+    }
+
+
+
     fun toggleValue(){
       when(_value.value){
           true -> _value.value = false

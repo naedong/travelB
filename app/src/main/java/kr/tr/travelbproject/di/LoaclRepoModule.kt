@@ -5,8 +5,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import kr.tr.data.repository.local.ListDataStoreRepositoryImpl
 import kr.tr.data.repository.local.MapDataStoreRepositoryImpl
+import kr.tr.domain.datasource.ListDataStore
 import kr.tr.domain.datasource.MapDataStore
+import kr.tr.domain.repository.local.ListDataStoreRepository
 import kr.tr.domain.repository.local.MapDataStoreRepository
 
 /**
@@ -24,6 +27,13 @@ object LoaclRepoModule {
     fun getMapTrackingDataStore(
         mapDataStore : MapDataStore
     ): MapDataStoreRepository = MapDataStoreRepositoryImpl(mapDataStore)
+
+    @Provides
+    @ViewModelScoped
+    fun getAreaBasedListItemDataStore(
+        listDataStore : ListDataStore
+    ): ListDataStoreRepository = ListDataStoreRepositoryImpl(listDataStore)
+
 
 
 }

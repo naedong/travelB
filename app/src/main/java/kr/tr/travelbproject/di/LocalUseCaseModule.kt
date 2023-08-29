@@ -8,11 +8,15 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import kr.tr.data.repository.local.MapDataStoreRepositoryImpl
 import kr.tr.domain.datasource.MapDataStore
+import kr.tr.domain.model.item.AreaBasedListItem
 import kr.tr.domain.model.item.CurrentLocationTrackingModel
+import kr.tr.domain.repository.local.ListDataStoreRepository
 import kr.tr.domain.repository.local.MapDataStoreRepository
+import kr.tr.domain.usecase.getAreaBasedListItemDataStoreUseCase
 import kr.tr.domain.usecase.getBool
 
 import kr.tr.domain.usecase.getMapDataTrackingUseCase
+import kr.tr.domain.usecase.setAreaBasedListItemDataStoreUseCase
 import kr.tr.domain.usecase.setMapDataTrackingUseCase
 import kr.tr.domain.usecase.setPutBoolean
 
@@ -25,6 +29,22 @@ import kr.tr.domain.usecase.setPutBoolean
 @Module
 @InstallIn(ViewModelComponent::class)
 object LocalUseCaseModule {
+
+    @Provides
+    @ViewModelScoped
+    fun getAreaBasedListItem(list : ListDataStoreRepository
+    ): getAreaBasedListItemDataStoreUseCase =
+        getAreaBasedListItemDataStoreUseCase(list::getAreaBasedListItemDataStore)
+
+    @Provides
+    @ViewModelScoped
+    fun setAreaBasedListItem(list : ListDataStoreRepository
+    ) = object  : setAreaBasedListItemDataStoreUseCase {
+        override suspend fun excute(area: AreaBasedListItem) {
+            list.setAreaBasedListItemDataStore(area)
+        }
+    }
+
 
 
     @Provides

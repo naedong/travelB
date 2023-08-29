@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -35,9 +36,12 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "../map/libs", "include" to listOf("*.jar"))))
     implementation(files("../map/libs/libDaumMapAndroid.jar"))
+
     // Data Store
     implementation(Libraries.dataStore.preferencesData)
 
+    // serialization
+    implementation(Libraries.serialization.kotlinxSerialization)
 
     implementation(project(mapOf("path" to ":common")))
 

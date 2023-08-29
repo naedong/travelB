@@ -1,11 +1,10 @@
 package kr.tr.travelbproject.ui.main
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import  androidx.compose.material.Scaffold
@@ -40,6 +39,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -47,11 +47,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kr.com.map.navigation.mapScreen
+import kr.com.plan.navigation.planScreen
 import kr.com.region.navigation.regionScreen
 import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.R
 import kr.tr.commom.theme.CustomMaterialTheme
-import kr.tr.commom.utill.Crossfade
 import kr.tr.home.navigation.homeScreen
 import kr.tr.travelbproject.navigation.mainScreen
 import kr.tr.travelbproject.ui.viewmodel.ChangeIcon
@@ -91,6 +91,18 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
 
     val custom = LocalContext.current
     val navController = rememberNavController()
+    val navBackStackEntry : NavBackStackEntry? = navController.currentBackStackEntryAsState().value
+
+    val currentItemId: String? = navBackStackEntry?.destination?.route
+
+    Log.e("navBackStackEntry", "Now Page $navBackStackEntry")
+    Log.e("navBackStackEntry", "currentItemId $currentItemId")
+
+    currentItemId?.let {
+        if(it.contains("mainHome")) homeIcon.setValue(false)
+        else homeIcon.setValue(true)
+    }
+
 
 
     Scaffold(modifier = Modifier,
@@ -129,7 +141,8 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
                                                 inclusive = true
                                             }
                                         }
-                                        homeIcon.toggleValue()
+
+
                                     }
                                     .size(80.dp)
                                     .background(Color.White)
@@ -164,16 +177,11 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
         bottomBar = {
             BottomNavigationBar(
                 modifier = Modifier.fillMaxHeight(0.1f), navController
-            ) {
-                homeIcon.toggleValue()
-            }
+            )
         }) {
-        Log.e("padding", "${it}")
-        Crossfade(targetState = snackbarHostState,
-            modifier = Modifier.padding()
-        ) {
-            MainScreenNavigationConfigurations(navController)
-        }
+
+            MainScreenNavigationConfigurations(navController, it)
+
 
 
     }
@@ -183,23 +191,26 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
 @Composable
 fun MainScreenNavigationConfigurations(
     navController: NavHostController,
+    paddingValues: PaddingValues,
     ) {
 
     NavHost(
         navController,
         startDestination = NavigationItem.mainHome.route + "/1",
         ) {
+
+
         mainScreen(navController)
         homeScreen(navController)
         mapScreen(navController)
         regionScreen(navController)
-
+        planScreen(navController)
     }
 }
 
 
 @Composable
-fun BottomNavigationBar(modifier: Modifier, navController: NavController, param : () -> Unit) {
+fun BottomNavigationBar(modifier: Modifier, navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     BottomAppBar(
@@ -257,8 +268,7 @@ fun BottomNavigationBar(modifier: Modifier, navController: NavController, param 
                                     launchSingleTop = true
                                     restoreState = true
                                 }
-                                param
-                              Log.e("Param Test", "${param.invoke()}")
+
                             })
 
                         if (index == 3) {

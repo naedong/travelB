@@ -105,15 +105,14 @@ fun RegionInfoCard(name: String, number: String, location: String) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-//            Text(
-//                text = "12 mins ago",
-//                modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
-//                color = Color.Black.copy(0.9f),
-//
-//            )
         }
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            GenderTag(number)
+        when(number){
+            "" -> {}
+            else -> {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    GenderTag(number)
+                }
+            }
         }
     }
 }

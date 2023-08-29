@@ -1,7 +1,9 @@
 package kr.com.region.presentation.view
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import kr.com.region.presentation.model.ListDataModel
 
 /**
  * TravelBProject
@@ -12,10 +14,10 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun RegionRouter(navController: NavHostController) {
-    RegionPage(navController)
+    RegionPage(navController, )
 }
 
 @Composable
 fun RegionPage(navController: NavHostController) {
-    RegionScreen(navController)
+    RegionScreen(navController,  )
 }

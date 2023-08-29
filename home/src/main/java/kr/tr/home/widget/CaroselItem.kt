@@ -397,7 +397,7 @@ fun InfoItem(
                                 Text(
                                     modifier = Modifier.padding(
                                         start = 5.dp,
-                                        top = 5.dp
+                                        top = 10.dp
 
                                     ),
                                     text = it,

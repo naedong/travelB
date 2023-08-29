@@ -5,12 +5,16 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.tr.data.repository.BusanRepository
+import kr.tr.data.repository.SubwayRepository
 import kr.tr.data.repository.TourismRepository
 import kr.tr.data.repository.repositoryimpl.AreaBasedItemRepositroyImpl
+import kr.tr.data.repository.repositoryimpl.StationCodeRepositoryImpl
 import kr.tr.data.repository.repositoryimpl.TourismRepositoryImpl
 import kr.tr.domain.repository.AreaBasedItemRepositoryInter
 import kr.tr.domain.repository.TourismRepositoryInter
+import kr.tr.domain.repository.getStationCodeRepositoryInter
 import kr.tr.domain.usecase.gateway.GateWay
+import kr.tr.domain.usecase.gateway.SubWayGateWay
 import kr.tr.domain.usecase.gateway.TourismGateWay
 import javax.inject.Singleton
 
@@ -38,6 +42,13 @@ object RepoModule {
 
     @Singleton
     @Provides
+    fun provideTravelBSubWayGateWay(
+        repository: SubwayRepository
+    ) :  SubWayGateWay = repository
+
+
+    @Singleton
+    @Provides
     fun provideTravelBInter(
         repositoryInter: TourismRepositoryImpl
     ) : TourismRepositoryInter = repositoryInter
@@ -48,6 +59,12 @@ object RepoModule {
     fun provideTravelBAreaBaseInter(
         repositoryInter: AreaBasedItemRepositroyImpl
     ) : AreaBasedItemRepositoryInter = repositoryInter
+
+    @Singleton
+    @Provides
+    fun provideTravelBSubWayInter(
+        repositoryInter: StationCodeRepositoryImpl
+    ) : getStationCodeRepositoryInter = repositoryInter
 
 
 }

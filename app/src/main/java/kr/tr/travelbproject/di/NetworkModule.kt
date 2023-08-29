@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.tr.data.api.BusanApiService
+import kr.tr.data.api.SubWayApiSerivce
 import kr.tr.data.api.TourismApiService
 import kr.tr.travelbproject.BuildConfig
 import okhttp3.Call
@@ -34,7 +35,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-
     @Singleton
     @Provides
     fun provideOkhttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -58,16 +58,10 @@ object NetworkModule {
                     )
                     .build()
 
-
                 val requestBuilder: Request.Builder = original.newBuilder()
                     .url(url)
 
-
-
-
-
                 val newRequest: Request = requestBuilder.build()
-
 
                 val client = OkHttpClient.Builder()
                     .dispatcher(Dispatcher().apply { maxRequestsPerHost = 1 })
@@ -108,6 +102,19 @@ object NetworkModule {
         return retrofitClient.create(TourismApiService::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideTravelBSubWayService(retrofitClient: Retrofit): SubWayApiSerivce {
+       return retrofitClient
+            .newBuilder()
+            .baseUrl(BuildConfig.URL_SUbWAY_BASE)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(
+                SubWayApiSerivce::class.java
+            )
+    }
+
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -117,4 +124,5 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
 }

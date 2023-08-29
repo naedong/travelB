@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kr.tr.domain.datasource.ListDataStore
 import kr.tr.domain.datasource.MapDataStore
 import javax.inject.Singleton
 
@@ -24,6 +25,13 @@ object DataStoreModule {
     fun providerAppDataStore(@ApplicationContext context: Context) : MapDataStore {
         return MapDataStore(context)
     }
+
+    @Provides
+    @Singleton
+    fun providerListDataStore(@ApplicationContext context: Context) : ListDataStore {
+        return ListDataStore(context)
+    }
+
 
 
 

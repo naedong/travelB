@@ -2,8 +2,11 @@ package kr.com.region.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import kr.com.region.presentation.view.RegionRouter
+import kr.com.region.presentation.view.region.DetailRegionPage
 import kr.tr.commom.items.NavigationItem
 
 /**
@@ -14,15 +17,24 @@ import kr.tr.commom.items.NavigationItem
  */
 fun NavGraphBuilder.regionScreen(
     navController: NavHostController,
-) {
+    ) {
+
     composable(NavigationItem.region.route){
-        RegionRouter(navController)
+
+        RegionRouter(navController, )
     }
 
-    composable(NavigationItem.region.route+"/",
-
+    composable(NavigationItem.region.route+"/{rnum}",
+        arguments = listOf(
+            navArgument(("rnum")){
+              type = NavType.StringType
+            },
+        )
         ){
 
+        DetailRegionPage(
+               navController, it.arguments?.getString("rnum")
+            )
     }
 
 

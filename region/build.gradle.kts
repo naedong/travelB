@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -22,6 +24,13 @@ android {
 
             }
         }
+    }
+
+    configurations {
+        implementation {
+            exclude(group = "org.jetbrains", module = "annotations")
+        }
+
     }
     ext {
         kotlin{
@@ -78,6 +87,9 @@ dependencies {
 
     //coil
     implementation(Libraries.coil.coil)
+
+
+
 
     // view model
     implementation(Libraries.viewModel.viewModelScope)

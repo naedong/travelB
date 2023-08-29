@@ -1,5 +1,9 @@
 package kr.tr.domain.model.item
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kr.tr.domain.model.TourismHeader
 
 /**
@@ -29,6 +33,8 @@ data class AreaBasedListItems(
     val item: List<AreaBasedListItem>?
 )
 
+@Serializable
+@Parcelize
 data class AreaBasedListItem(
     val addr1: String?,
     val addr2: String?,
@@ -51,4 +57,4 @@ data class AreaBasedListItem(
     val tel: String?,
     val title: String?,
     val zipcode: String?
-)
+) : Parcelable
