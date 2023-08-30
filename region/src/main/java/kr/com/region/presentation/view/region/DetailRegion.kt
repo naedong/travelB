@@ -1,10 +1,12 @@
 package kr.com.region.presentation.view.region
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
@@ -57,7 +60,11 @@ fun DetailRegionScreen(navi: NavHostController) {
         modifier = Modifier
             .padding(
                 top = 3.dp,
-            )
+                )
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+
     ) {
         items(list) {
             it?.let { item ->
@@ -67,7 +74,7 @@ fun DetailRegionScreen(navi: NavHostController) {
                             start = 5.dp
                         )
                         .width(110.dp)
-                        .height(50.dp)
+                        .height(40.dp)
                         .border(
                             width = 1.dp,
                             color = Color.Black,
@@ -96,6 +103,8 @@ fun DetailRegionScreen(navi: NavHostController) {
                 }
             }
         }
+
+
         list.apply {
             when {
                 loadState.refresh is LoadState.Loading -> {
@@ -145,7 +154,9 @@ fun DetailRegionScreen(navi: NavHostController) {
             viewmodel.onChangeStored(rememberSaveNumber).collectAsLazyPagingItems()
         LazyColumn(
             modifier = Modifier
-                .padding(top = 3.dp, bottom = 90.dp),
+                .padding(top = 3.dp, bottom = 90.dp)
+                .fillMaxHeight(),
+
             verticalArrangement = Arrangement.Top,
         ) {
             items(getAreaBasedListItem) { items ->
@@ -155,7 +166,7 @@ fun DetailRegionScreen(navi: NavHostController) {
                             start = 5.dp,
                             end = 5.dp,
                         )
-                        .fillMaxWidth(0.75f)
+                        .fillMaxWidth(0.7f)
                         .fillMaxHeight(0.9f)
                         .border(
                             width = 1.dp,
@@ -213,6 +224,18 @@ fun DetailRegionScreen(navi: NavHostController) {
                     }
                 }
             }
+            item {
+                Text(text = ""
+                    , modifier = Modifier
+                        .height(150.dp)
+                        .zIndex(0f)
+                        .fillMaxWidth()
+                        .padding(top = 3.dp, bottom = 100.dp)
+                        .background(Color.White)
+                )
+
+            }
+
             getAreaBasedListItem.apply {
                 when {
                     loadState.refresh is LoadState.Loading -> {

@@ -24,8 +24,6 @@ class AreaBasedItemRepositroyImpl @Inject constructor(
 
 
     override fun getAreaBaseItemInter(sigunguCode: Int): Flow<PagingData<AreaBasedListItem>> {
-      Log.e("GetAreaBaseItemInter", "$sigunguCode null check")
-        Log.e("GetAreaBaseItemInter", "Code CheckAA")
 
         return Pager(
             PagingConfig(

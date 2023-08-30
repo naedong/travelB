@@ -15,13 +15,13 @@ import javax.inject.Inject
 class MapDataStoreRepositoryImpl @Inject constructor(
     private val mapDataStore: MapDataStore
 ) : MapDataStoreRepository {
-    override fun getTrackingMode(): Flow<CurrentLocationTrackingModel> {
-            return mapDataStore.getTrackingMode()
-    }
-
-    override suspend fun setTrackingMode(trackingMode: CurrentLocationTrackingModel) {
-        mapDataStore.setTrackingModel(trackingMode)
-    }
+//    override fun getTrackingMode(): Flow<CurrentLocationTrackingModel> {
+//            return mapDataStore.getTrackingMode()
+//    }
+//
+//    override suspend fun setTrackingMode(trackingMode: CurrentLocationTrackingModel) {
+//        mapDataStore.setTrackingModel(trackingMode)
+//    }
 
     override suspend fun setPutBoolean(bool: Boolean) {
         mapDataStore.isPutBoolean(bool)

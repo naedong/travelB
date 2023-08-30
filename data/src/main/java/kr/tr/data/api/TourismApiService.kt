@@ -51,4 +51,7 @@ interface TourismApiService {
     ) : Response<ResponseAreaBasedItem>
 
 
+
+
+
 }

@@ -3,6 +3,7 @@ package kr.tr.domain.usecase
 import kotlinx.coroutines.flow.Flow
 import kr.tr.domain.model.item.CurrentLocationTrackingModel
 import net.daum.mf.map.api.MapView
+import net.daum.mf.map.api.MapView.CurrentLocationTrackingMode
 
 /**
  * TravelBProject
@@ -11,9 +12,8 @@ import net.daum.mf.map.api.MapView
  * Time: 오후 1:33
  */
 
-    fun interface getMapDataTrackingUseCase : () -> Flow<CurrentLocationTrackingModel>
-    fun interface setMapDataTrackingUseCase {
-        suspend fun excute(setTracking : CurrentLocationTrackingModel)
+    fun interface getMapDataTrackingUseCase : () -> Flow<CurrentLocationTrackingMode>
+    fun interface setMapDataTrackingUseCase { suspend fun excute(setTracking : CurrentLocationTrackingModel)
     }
 
     fun interface setPutBoolean {

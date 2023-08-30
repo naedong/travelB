@@ -90,7 +90,7 @@ fun ListViewModel() {
             item {
                 Text(text = ""
                     , modifier = Modifier
-                        .height(130.dp)
+                        .height(140.dp)
                         .zIndex(0f)
                         .fillMaxWidth()
                         .padding(top = 3.dp, bottom = 100.dp)
@@ -154,7 +154,7 @@ fun StationNameItem(str: String) {
                 start = 15.dp,
                 end = 50.dp
             )
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth(0.7f)
             .height(50.dp)
             .border(
                 width = 1.dp,

@@ -3,7 +3,6 @@ plugins {
     id("maven-publish")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-
     id("com.google.dagger.hilt.android")
 }
 
@@ -36,12 +35,21 @@ android {
         )
 
 
+        buildConfigField(
+            "String",
+            "URL_SUbWAY_BASE",
+            "\"${WebConfig.WebSubWayBaseUrl}\""
+        )
+
 
 
     }
 
 
     configurations {
+        implementation {
+            exclude(group = "org.jetbrains", module = "annotations")
+        }
         all {
             exclude(group = "org.gradle.internal.impldep.org.bouncycastle")
         }
@@ -101,7 +109,12 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":home"))
     implementation(project(":data"))
+    implementation(project(":map"))
+    implementation(project(":region"))
+    implementation(project(":plan"))
 
+    // annotation
+    // implementation(Libraries.annotation.jetbrainAnnotation)
 
 
     implementation(Libraries.compose.ui.neumorphism)
@@ -142,9 +155,21 @@ dependencies {
 
     //hilt
     implementation(Libraries.dagger.hiltAndroid)
-//    implementation(Libraries.dagger.hiltGradle)
 
     // kapt to ksp
     ksp(Libraries.room.roomCompiler)
     ksp(Libraries.dagger.hiltAndroidCompiler)
+    implementation(Libraries.nav.hiltNav)
+
+    //liveData
+    runtimeOnly(Libraries.livedata.liveData)
+    implementation(Libraries.livedata.liveData)
+
+
+
+    //splash
+    implementation(Libraries.splash.splashScreen)
+
+
+
 }

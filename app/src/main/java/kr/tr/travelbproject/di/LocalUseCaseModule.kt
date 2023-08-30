@@ -5,9 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import dagger.hilt.components.SingletonComponent
-import kr.tr.data.repository.local.MapDataStoreRepositoryImpl
-import kr.tr.domain.datasource.MapDataStore
+
 import kr.tr.domain.model.item.AreaBasedListItem
 import kr.tr.domain.model.item.CurrentLocationTrackingModel
 import kr.tr.domain.repository.local.ListDataStoreRepository
@@ -47,19 +45,19 @@ object LocalUseCaseModule {
 
 
 
-    @Provides
-    @ViewModelScoped
-    fun getMapTracking(map : MapDataStoreRepository
-    ): getMapDataTrackingUseCase =  getMapDataTrackingUseCase(map::getTrackingMode)
-
-    @Provides
-    @ViewModelScoped
-    fun setMapTracking(map: MapDataStoreRepository)
-     = object : setMapDataTrackingUseCase {
-        override suspend fun excute(setTracking: CurrentLocationTrackingModel) {
-            map.setTrackingMode(setTracking)
-        }
-    }
+//    @Provides
+//    @ViewModelScoped
+//    fun getMapTracking(map : MapDataStoreRepository
+//    ): getMapDataTrackingUseCase =  getMapDataTrackingUseCase(map::getTrackingMode)
+//
+//    @Provides
+//    @ViewModelScoped
+//    fun setMapTracking(map: MapDataStoreRepository)
+//     = object : setMapDataTrackingUseCase {
+//        override suspend fun excute(setTracking: CurrentLocationTrackingModel) {
+//            map.setTrackingMode(setTracking)
+//        }
+//    }
 
     @Provides
     @ViewModelScoped

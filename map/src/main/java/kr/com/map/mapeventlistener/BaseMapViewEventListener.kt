@@ -18,19 +18,16 @@ open class BaseMapViewEventListener : MapViewEventListener {
     }
 
     override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
-
         Log.e("onMapViewCenterPointMoved", "p0 : $p0")
         Log.e("onMapViewCenterPointMoved", "p1 : $p1")
     }
 
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-
         Log.e("onMapViewZoomLevelChanged", "p0 : $p0")
         Log.e("onMapViewZoomLevelChanged", "p1 : $p1")
     }
 
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-
         Log.e("onMapViewSingleTapped", "p0 : $p0")
         Log.e("onMapViewSingleTapped", "p1 : $p1")
     }

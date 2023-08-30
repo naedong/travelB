@@ -23,11 +23,6 @@ class TourismRemoteDataSource @Inject constructor(
     }
 
     suspend fun getAreaBasedItem(sigunguCode : Int, pageNo : Int ) : Response<AreaBasedItem> {
-     Log.e("MYCCCC", "작동확인")
-        Log.e("check", "${tourismApiService.getTourismAreaBasedList(
-            pageNo = pageNo,
-            sigunguCode = sigunguCode
-        ).asTourism()}")
         return tourismApiService.getTourismAreaBasedList(
             pageNo = pageNo,
             sigunguCode = sigunguCode

@@ -54,7 +54,10 @@ android {
 dependencies {
 
 
-
+    // Data Store
+    implementation(Libraries.dataStore.preferencesData)
+    implementation(Libraries.dataStore.preferencesDataCore)
+    implementation(Libraries.dataStore.preferencesRxjava3)
 
     implementation(project(":domain"))
     implementation(project(mapOf("path" to ":common")))
