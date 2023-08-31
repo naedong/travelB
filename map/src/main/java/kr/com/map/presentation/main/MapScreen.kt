@@ -7,7 +7,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,10 +19,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,10 +40,12 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import kr.com.map.item.MainFloatingActionButton
+import kr.com.map.item.MapTypeCardItem
 import kr.com.map.presentation.model.MapViewModel
 import kr.tr.commom.R
 import kr.tr.commom.theme.CustomMaterialTheme
 import net.daum.mf.map.api.MapView
+import net.daum.mf.map.api.MapView.CurrentLocationTrackingMode
 import net.daum.mf.map.api.MapView.MapType
 
 
@@ -61,11 +64,10 @@ fun MapRouter(navigation: NavHostController) {
 @Composable
 fun KakaoMapScreen() {
     val viewModel = hiltViewModel<MapViewModel>()
-    val mapType = viewModel.myMapType.observeAsState(MapType.Satellite)
+    val mapType = viewModel.myMapType.observeAsState(MapType.Standard)
     val slideBool = viewModel.typeBackground.observeAsState(initial = false)
+    val tracking = viewModel.trackingMode.observeAsState(initial = MapView.CurrentLocationTrackingMode.TrackingModeOff)
 
-    val rs = rememberPermissionState(permission = Manifest.permission.ACCESS_FINE_LOCATION)
-    var mapView: MapView? = null
 
 
     AndroidView(factory = {
@@ -73,25 +75,47 @@ fun KakaoMapScreen() {
     }
     ) {
         it.mapType = mapType.value
+        it.currentLocationTrackingMode = tracking.value
+        it.mapRotationAngle
     }
 
-    Column {
-        Text(text = "${mapType.value}")
-        MainFloatingActionButton(onClick = {
-            viewModel.setTypeBackGround(true)
-            viewModel.setMyMapType(mapType.value)
 
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.End
+    ) {
+        MainFloatingActionButton(onClick = {
+            viewModel.setTypeBackGround(slideBool.value.not())
         }) {
-            val res = when (mapType.value) {
-                MapType.Satellite -> R.drawable.baseline_gps_mode
-                MapType.Hybrid -> R.drawable.baseline_comepass
-                else -> R.drawable.baseline_gps_fixed
+            val res = when (slideBool.value) {
+                true -> R.drawable.blue_web_stories_24
+                else -> R.drawable.web_stories_24
             }
-            Image(painter = painterResource(id = res), contentDescription = "")
+            Image(painter = painterResource(id = res),
+                contentDescription = "")
+        }
+
+        MainFloatingActionButton(onClick = {
+            viewModel.setTrackingMode(setTrackingMode(mode = tracking.value))
+        }) {
+            val res = when (tracking.value) {
+                CurrentLocationTrackingMode.TrackingModeOff -> R.drawable.baseline_gps_fixed
+                CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving -> R.drawable.baseline_navigation_24
+                else -> R.drawable.baseline_gps_mode
+            }
+            Image(painter = painterResource(id = res),
+                contentDescription = "")
         }
 
 
+
     }
+
+
+
+
+
+
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -99,16 +123,32 @@ fun KakaoMapScreen() {
         verticalArrangement = Arrangement.Bottom
 
     ) {
-        mainVerticallySlide(viewModel)
+        mainVerticallySlide(viewModel, slideBool)
     }
 }
 
+
+fun setTrackingMode(mode : CurrentLocationTrackingMode) : CurrentLocationTrackingMode {
+    return when(mode){
+        CurrentLocationTrackingMode.TrackingModeOff -> {
+            CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
+        }
+        CurrentLocationTrackingMode.TrackingModeOnWithoutHeading -> {
+            CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving
+        }
+        else -> {
+            CurrentLocationTrackingMode.TrackingModeOff
+        }
+    }
+
+}
+
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun mainVerticallySlide(viewModel : MapViewModel) {
-
+fun mainVerticallySlide(viewModel: MapViewModel, slideBool: State<Boolean>) {
     AnimatedVisibility(
-        visible = viewModel.getTypeBackGround() ?: false,
+        visible = slideBool.value,
         enter = slideInVertically(initialOffsetY = {
             +it
         }),
@@ -124,59 +164,60 @@ fun mainVerticallySlide(viewModel : MapViewModel) {
                 .background(Color.White)
         ) {
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 15.dp, top = 15.dp),
-                horizontalArrangement = Arrangement.End
-                ) {
-                Icon(Icons.Default.Close,
-                    modifier = Modifier.
-                    clickable {
-                        viewModel.setTypeBackGround(false)
-                    },
-                    contentDescription = "")
-            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                horizontalArrangement = Arrangement
+                    .Center
+            ) {
+                Text(text = "지도 설정",
+                    fontSize = 25.sp,
+                    fontFamily = CustomMaterialTheme.typography.maruBuri_SemiBold
+                )
 
+
+            }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 15.dp, top = 15.dp),
+                    horizontalArrangement = Arrangement.End
+                )  {
+                    IconButton(onClick = {
+                        viewModel.setTypeBackGround(false)
+                    }
+                    ) {
+                        Icon(
+                            Icons.Default.Close,
+                            modifier = Modifier,
+                            contentDescription = ""
+                        )
+                    }
+                }
             Column {
 
+                Spacer(modifier = Modifier.padding(top = 30.dp, bottom = 30.dp))
+                Divider(
+                    modifier = Modifier.padding(
+                        bottom = 5.dp
+                    )
+                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.3f)
-                        .padding(start = 40.dp),
+                        .padding(start = 35.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Card {
-                        Text(
-                            text = "지도",
-                            fontFamily = CustomMaterialTheme.typography.maruBuri_SemiBold,
-                            fontSize = 18.sp
 
-                        )
-                    }
-                    Card {
-                        Text(
-                            text = "지도 + 스카이뷰",
-                            fontFamily = CustomMaterialTheme.typography.maruBuri_SemiBold,
-                            fontSize = 18.sp
-
-                        )
-                    }
-                    Card {
-                        Text(
-                            text = "3D스카이뷰",
-                            fontFamily = CustomMaterialTheme.typography.maruBuri_SemiBold,
-                            fontSize = 18.sp
-                        )
-                    }
-
+                    MapTypeCardItem(tagName = "지도", R.drawable.default_map,  viewModel)
+                    MapTypeCardItem(tagName = "지도 + 스카이뷰", R.drawable.hybrid, viewModel)
+                    MapTypeCardItem(tagName = "3D 스카이뷰", R.drawable.satellite, viewModel)
                     Spacer(modifier = Modifier)
                 }
-
             }
-
-
         }
     }
 }

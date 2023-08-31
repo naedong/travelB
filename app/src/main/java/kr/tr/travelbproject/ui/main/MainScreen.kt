@@ -1,6 +1,31 @@
 package kr.tr.travelbproject.ui.main
 
 import android.util.Log
+import android.view.MotionEvent
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.AnimationConstants
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.repeatable
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -32,7 +57,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.FabPosition
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
@@ -46,6 +79,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.delay
 import kr.com.map.navigation.mapScreen
 import kr.com.plan.navigation.planScreen
 import kr.com.region.navigation.regionScreen
@@ -79,29 +113,29 @@ fun ObservedHomeIcon() {
 
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SettingUpBottomNavigationBarAndCollapsing() {
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val homeIcon = hiltViewModel<ChangeIcon>()
-
-    val iconData : Boolean by homeIcon.value.observeAsState(false)
-
-    // data이 변경되면 recomposes 됩니다
-
-    val custom = LocalContext.current
     val navController = rememberNavController()
-    val navBackStackEntry : NavBackStackEntry? = navController.currentBackStackEntryAsState().value
+    val navBackStackEntry: NavBackStackEntry? = navController.currentBackStackEntryAsState().value
+    val indexNavigation = rememberSaveable {
+        mutableStateOf(0)
+    }
 
     val currentItemId: String? = navBackStackEntry?.destination?.route
 
-    Log.e("navBackStackEntry", "Now Page $navBackStackEntry")
-    Log.e("navBackStackEntry", "currentItemId $currentItemId")
 
     currentItemId?.let {
-        if(it.contains("mainHome")) homeIcon.setValue(false)
-        else homeIcon.setValue(true)
+        if (it.contains("mainHome")) {
+            indexNavigation.value = 0
+        } else {
+            indexNavigation.value = 1
+        }
     }
+
+
 
 
 
@@ -127,50 +161,50 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
 
                     ), backgroundColor = Color.Black
             ) {
-                    when(iconData){
-                        true -> {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(
-                                    id =
-                                    NavigationItem.Companion.bottomNavigationItems.get(1).icon
+                AnimatedContent(targetState = indexNavigation.value,
+                    transitionSpec = {
+                        if (targetState > initialState) {
+                            // If the target number is larger, it slides up and fades in
+                            // while the initial (smaller) number slides up and fades out.
+                            scaleIn() with scaleOut()
+               //             slideInVertically { height -> height } + fadeIn() with
+                 //                   slideOutVertically { height -> -height } + fadeOut()
+                        } else {
+                            // If the target number is smaller, it slides down and fades in
+                            // while the initial number slides down and fades out.
+                            scaleIn() with scaleOut()
 
-                                ), contentDescription = "Home", modifier = Modifier
-                                    .clickable {
-                                        navController.navigate(NavigationItem.mainHome.route + "/1") {
-                                            popUpTo(NavigationItem.mainHome.route + "/1") {
-                                                inclusive = true
-                                            }
-                                        }
-
-
-                                    }
-                                    .size(80.dp)
-                                    .background(Color.White)
-                            )
-                        }
-                        else -> {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(
-                                    id =
-                                    NavigationItem.Companion.bottomNavigationItems.get(0).icon
-
-                                ), contentDescription = "Home", modifier = Modifier
-                                    .clickable {
-
-                                        navController.navigate(NavigationItem.mainHome.route + "/1") {
-                                            popUpTo(NavigationItem.mainHome.route + "/1") {
-                                                inclusive = true
-                                            }
-                                        }
-                                    }
-                                    .size(80.dp)
-                                    .background(Color.White)
-                            )
-                        }
-
-                        }
+//                            slideInVertically { height -> -height } + fadeIn() with
+//                                    slideOutVertically { height -> height } + fadeOut()
+                        }.using(
+                            // Disable clipping since the faded slide-in/out should
+                            // be displayed out of bounds.
+                            SizeTransform(clip = false)
+                        )
                     }
 
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(
+                            id =
+                            NavigationItem.Companion.bottomNavigationItems
+                                .get(it)
+                                .icon
+                        ),
+                        contentDescription = "Home", modifier = Modifier
+                            .clickable {
+                                navController.navigate(NavigationItem.mainHome.route + "/1") {
+                                    popUpTo(NavigationItem.mainHome.route + "/1") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                            .size(80.dp)
+                            .background(Color.White)
+                    )
+                }
+
+            }
         },
         isFloatingActionButtonDocked = true,
 
@@ -180,8 +214,7 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
             )
         }) {
 
-            MainScreenNavigationConfigurations(navController, it)
-
+        MainScreenNavigationConfigurations(navController, it)
 
 
     }
@@ -192,12 +225,12 @@ fun SettingUpBottomNavigationBarAndCollapsing() {
 fun MainScreenNavigationConfigurations(
     navController: NavHostController,
     paddingValues: PaddingValues,
-    ) {
+) {
 
     NavHost(
         navController,
         startDestination = NavigationItem.mainHome.route + "/1",
-        ) {
+    ) {
 
 
         mainScreen(navController)

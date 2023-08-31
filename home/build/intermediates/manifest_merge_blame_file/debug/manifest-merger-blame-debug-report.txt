@@ -3,6 +3,6 @@
 3    package="kr.tr.home" >
 4
 5    <uses-sdk android:minSdkVersion="26" />
-5-->D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4799464296311911603.xml
+5-->D:\android\TravelB\home\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest14534716931611887663.xml
 6
 7</manifest>

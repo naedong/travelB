@@ -61,6 +61,10 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import kr.tr.commom.theme.CustomMaterialTheme
+import kr.tr.commom.utill.DayFormatter
+import kr.tr.commom.utill.DayTimeFormatter
+import kr.tr.commom.utill.EventTimeFormatter
+import kr.tr.commom.utill.HourFormatter
 
 /**
  * TravelBProject
@@ -76,8 +80,6 @@ data class Event(
     val end: LocalDateTime,
     val description: String? = null,
 )
-
-val EventTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 
 inline class SplitType private constructor(val value: Int) {
@@ -505,10 +507,7 @@ private class EventDataModifier(
     override fun Density.modifyParentData(parentData: Any?) = positionedEvent
 }
 
-private val DayFormatter = DateTimeFormatter.ofPattern("EE, MMM d")
-private val DayTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
-private val HourFormatter = DateTimeFormatter.ofPattern("h a")
 
 private fun PositionedEvent.overlapsWith(other: PositionedEvent): Boolean {
     return date == other.date && start < other.end && end > other.start

@@ -1,6 +1,7 @@
 package kr.com.map.presentation.model
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,11 +37,19 @@ class MapViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
+    private val _TrackingMode = MutableLiveData<CurrentLocationTrackingMode>()
+    var trackingMode : LiveData<CurrentLocationTrackingMode> = _TrackingMode
+
     private val _MyMapType = MutableLiveData<MapType>()
     var myMapType : LiveData<MapType> = _MyMapType
 
     private val _TypeBackGround = MutableLiveData<Boolean>()
     var typeBackground : LiveData<Boolean> = _TypeBackGround
+
+    fun setTrackingMode(set : CurrentLocationTrackingMode){
+        _TrackingMode.value = set
+    }
+
 
     fun setTypeBackGround(set : Boolean){
         _TypeBackGround.value = set
@@ -52,11 +61,12 @@ class MapViewModel @Inject constructor(
 
     fun setMyMapType(mapType: MapType){
          when(mapType){
-            MapType.Satellite -> { _MyMapType.value = MapType.Hybrid }
-            MapType.Hybrid -> { _MyMapType.value = MapType.Standard}
-            else -> { _MyMapType.value = MapType.Satellite }
+            MapType.Satellite -> { _MyMapType.value = MapType.Satellite }
+            MapType.Hybrid -> { _MyMapType.value = MapType.Hybrid }
+            else -> { _MyMapType.value = MapType.Standard }
         }
     }
+
 
 //
 //

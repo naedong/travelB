@@ -16,23 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeIcon @Inject constructor(
 ) : ViewModel() {
-    private val _value = MutableLiveData(false)
-    val value : LiveData<Boolean> = _value
-
-
-    fun setValue(boolean: Boolean){
-        _value.value = boolean
-    }
-
-
-
-    fun toggleValue(){
-      when(_value.value){
-          true -> _value.value = false
-          else -> _value.value = true
-      }
-    }
-
 
 
 }
