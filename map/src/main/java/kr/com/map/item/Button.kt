@@ -22,27 +22,6 @@ import net.daum.mf.map.api.MapView
  * Date: 2023-08-10
  * Time: 오후 9:42
  */
-@Composable
-fun ColumnScope.MainFloatingActionButtons(
-    trackingMode: CurrentLocationTrackingModel,
-    onTrackingModeClick: () -> Unit,
-    onListModeClick: () -> Unit
-) {
-
-
-    MainFloatingActionButton(
-        onClick = onTrackingModeClick,
-    ) {
-
-        val res = when (trackingMode) {
-            CurrentLocationTrackingModel.TrackingModeOnWithoutHeading -> R.drawable.baseline_gps_mode
-            CurrentLocationTrackingModel.TrackingModeOnWithHeading -> R.drawable.baseline_comepass
-            else -> R.drawable.baseline_gps_fixed
-        }
-        Image(painter = painterResource(id = res), contentDescription = "")
-
-    }
-}
 
 @Composable
 fun ColumnScope.MainFloatingActionButton(onClick: () -> Unit, content: @Composable () -> Unit) {

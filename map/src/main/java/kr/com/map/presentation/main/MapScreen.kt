@@ -1,36 +1,65 @@
 package kr.com.map.presentation.main
 
-import android.Manifest
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -38,7 +67,6 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
 import kr.com.map.item.MainFloatingActionButton
 import kr.com.map.item.MapTypeCardItem
 import kr.com.map.presentation.model.MapViewModel
@@ -66,8 +94,20 @@ fun KakaoMapScreen() {
     val viewModel = hiltViewModel<MapViewModel>()
     val mapType = viewModel.myMapType.observeAsState(MapType.Standard)
     val slideBool = viewModel.typeBackground.observeAsState(initial = false)
-    val tracking = viewModel.trackingMode.observeAsState(initial = MapView.CurrentLocationTrackingMode.TrackingModeOff)
+    val tracking =
+        viewModel.trackingMode.observeAsState(initial = MapView.CurrentLocationTrackingMode.TrackingModeOff)
 
+    val focusManager = LocalFocusManager.current
+    val openCloseVisible = rememberSaveable {
+        mutableStateOf(false)
+    }
+    var searchText by remember {
+        mutableStateOf("")
+    }
+
+    BackHandler(openCloseVisible.value) {
+        openCloseVisible.value = false
+    }
 
 
     AndroidView(factory = {
@@ -84,6 +124,18 @@ fun KakaoMapScreen() {
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.End
     ) {
+
+
+        searchShop(
+            this,
+            searchText,
+            openCloseVisible,
+            onSearchTextChanged = { searchText = it },
+            onSearchButtonClicked = { openCloseVisible.value = true },
+            focusManager = focusManager
+        )
+
+
         MainFloatingActionButton(onClick = {
             viewModel.setTypeBackGround(slideBool.value.not())
         }) {
@@ -91,8 +143,10 @@ fun KakaoMapScreen() {
                 true -> R.drawable.blue_web_stories_24
                 else -> R.drawable.web_stories_24
             }
-            Image(painter = painterResource(id = res),
-                contentDescription = "")
+            Image(
+                painter = painterResource(id = res),
+                contentDescription = ""
+            )
         }
 
         MainFloatingActionButton(onClick = {
@@ -103,14 +157,13 @@ fun KakaoMapScreen() {
                 CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving -> R.drawable.baseline_navigation_24
                 else -> R.drawable.baseline_gps_mode
             }
-            Image(painter = painterResource(id = res),
-                contentDescription = "")
+            Image(
+                painter = painterResource(id = res),
+                contentDescription = ""
+            )
         }
 
-
-
     }
-
 
 
 
@@ -127,15 +180,122 @@ fun KakaoMapScreen() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun searchShop(
+    columnScope: ColumnScope,
+    searchText: String,
+    openCloseVisible: MutableState<Boolean>,
+    onSearchTextChanged: (String) -> Unit,
+    onSearchButtonClicked: () -> Unit,
+    focusManager: FocusManager
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
+        contentAlignment = Alignment.TopEnd
+    ) {
+    AnimatedVisibility(visible = openCloseVisible.value,
+        modifier = Modifier.offset(x = 0.dp ),
+        enter =
+        slideInHorizontally {
+            +it
 
-fun setTrackingMode(mode : CurrentLocationTrackingMode) : CurrentLocationTrackingMode {
-    return when(mode){
+        } +
+                scaleIn(
+                    initialScale = 1f
+                ),
+        exit = slideOutHorizontally
+        { +it
+        } + scaleOut(
+            transformOrigin = TransformOrigin(1f, 0f)
+        )
+//            enter = slideInHorizontally { +it } + scaleIn() + expandHorizontally(),
+//            exit = slideOutHorizontally { +it } + scaleOut() + shrinkHorizontally()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+                .background(
+                    Color.White,
+                    RoundedCornerShape(20.dp)
+                )
+        ) {
+            BasicTextField(
+                modifier = Modifier,
+                value = searchText,
+                onValueChange = onSearchTextChanged,
+                singleLine = true,
+                cursorBrush = SolidColor(MaterialTheme.colors.primary),
+                textStyle = TextStyle(
+                    fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
+                    fontSize = 12.sp,
+                    color = Color.Black
+                ),
+                decorationBox = { innerTextField ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        IconButton(onClick = {
+                            openCloseVisible.value = false
+                            focusManager.clearFocus()
+                        }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search Icon",
+                                tint = Color.Black.copy(alpha = 0.5f)
+                            )
+                        }
+
+                        Box(Modifier.weight(1f)) {
+                            if (searchText.isEmpty()) {
+                                Text(
+                                    text = "검색어를 입력하세요.",
+                                    style = LocalTextStyle.current.copy(
+                                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
+                                        fontSize = 15.sp,
+                                        fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur
+                                    )
+                                )
+                            } else {
+                                innerTextField()
+                            }
+                        }
+                    }
+                }
+            )
+        }
+    }
+
+    if (!openCloseVisible.value) {
+
+            columnScope.MainFloatingActionButton(onClick = onSearchButtonClicked) {
+                Image(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = ""
+                )
+            }
+        }
+    }
+
+
+}
+
+
+fun setTrackingMode(mode: CurrentLocationTrackingMode): CurrentLocationTrackingMode {
+    return when (mode) {
         CurrentLocationTrackingMode.TrackingModeOff -> {
             CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
         }
+
         CurrentLocationTrackingMode.TrackingModeOnWithoutHeading -> {
             CurrentLocationTrackingMode.TrackingModeOnWithHeadingWithoutMapMoving
         }
+
         else -> {
             CurrentLocationTrackingMode.TrackingModeOff
         }
@@ -171,30 +331,31 @@ fun mainVerticallySlide(viewModel: MapViewModel, slideBool: State<Boolean>) {
                 horizontalArrangement = Arrangement
                     .Center
             ) {
-                Text(text = "지도 설정",
+                Text(
+                    text = "지도 설정",
                     fontSize = 25.sp,
                     fontFamily = CustomMaterialTheme.typography.maruBuri_SemiBold
                 )
 
 
             }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 15.dp, top = 15.dp),
-                    horizontalArrangement = Arrangement.End
-                )  {
-                    IconButton(onClick = {
-                        viewModel.setTypeBackGround(false)
-                    }
-                    ) {
-                        Icon(
-                            Icons.Default.Close,
-                            modifier = Modifier,
-                            contentDescription = ""
-                        )
-                    }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 15.dp, top = 15.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                IconButton(onClick = {
+                    viewModel.setTypeBackGround(false)
                 }
+                ) {
+                    Icon(
+                        Icons.Default.Close,
+                        modifier = Modifier,
+                        contentDescription = ""
+                    )
+                }
+            }
             Column {
 
                 Spacer(modifier = Modifier.padding(top = 30.dp, bottom = 30.dp))
@@ -212,7 +373,7 @@ fun mainVerticallySlide(viewModel: MapViewModel, slideBool: State<Boolean>) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
 
-                    MapTypeCardItem(tagName = "지도", R.drawable.default_map,  viewModel)
+                    MapTypeCardItem(tagName = "지도", R.drawable.default_map, viewModel)
                     MapTypeCardItem(tagName = "지도 + 스카이뷰", R.drawable.hybrid, viewModel)
                     MapTypeCardItem(tagName = "3D 스카이뷰", R.drawable.satellite, viewModel)
                     Spacer(modifier = Modifier)
