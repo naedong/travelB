@@ -1,9 +1,13 @@
 # travelB
 kotlin, jetpack compose, mvvm, clean architecture 
 
-<https://www.figma.com/file/1zlCdJ8h1E8DivXBJJB84v/prototype?type=design&node-id=1%3A4&mode=design&t=TcmNOIU9fpFOUMvh-1>
+## Figma 
 
-figma 제가 생각한 초기 생각한 디자인입니다. 
+[Figma Design](https://www.figma.com/file/1zlCdJ8h1E8DivXBJJB84v/prototype?type=design&node-id=1%3A4&mode=design&t=TcmNOIU9fpFOUMvh-1)
+
+제가 생각한 초기 생각한 디자인입니다.
+
+디자인과 대략적인 기획으로 구성하였으며 MVP는 구성하지 않았습니다. 
 
 ## JetPack Compose 로만 구성하였습니다.
 > - MMA로 기존 프로젝트를 페이지를 모듈로서 나누었으며 각각 모듈로서 구현하였습니다.
