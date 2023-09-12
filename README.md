@@ -214,15 +214,14 @@ figma 제가 생각한 초기 생각한 디자인입니다.
 
 
 https://github.com/naedong/travelB/assets/107181511/5505bc92-1e54-4eec-9113-4511cfeb7fe4
-
-
+- Main Page
+- 보완 사항 Data Shared 가 부족하고
+- Local에 저장을 하지 않아 기본적으로 데이터가 사라지면 재 호출을 함 
 
 https://github.com/naedong/travelB/assets/107181511/044ae7f2-ae9d-498f-8349-dbf5f7b15c81
-
 - Plan Page 주기적으로 개발을 하여야 하며 UI만 잡혔습니다.  
 
 
 https://github.com/naedong/travelB/assets/107181511/0d4dcbe9-340c-40cb-b221-df01fd84ade7
-
 - 기본 UI만 완성
 
