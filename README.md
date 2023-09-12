@@ -7,12 +7,11 @@ kotlin, jetpack compose, mvvm, clean architecture
 
 제가 생각한 초기 생각한 디자인입니다.
 
-디자인과 대략적인 기획으로 구성하였으며 MVP는 구성하지 않았습니다. 
+MVP는 구성하지 않았습니다. 
 
 ## JetPack Compose 로만 구성하였습니다.
 > - MMA로 기존 프로젝트를 페이지를 모듈로서 나누었으며 각각 모듈로서 구현하였습니다.
 > - Map - KaKaoMap을 사용하였습니다.
-> - 연습용이기에 시간이 날 때 업데이트 시키도록 하겠습니다.
 > - 100% Compose로 구성 중 이며 Groovy에서 KTS로 빌드 구성 하였습니다.
 > - coroutiones 사용 
 
