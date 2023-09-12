@@ -249,4 +249,4 @@ https://github.com/naedong/travelB/assets/107181511/0d4dcbe9-340c-40cb-b221-df01
 ### - Clean arhcitect Local 저장 부분을 더욱 보완 할 것입니다.
 ### - 패키지 명이 달라 명칭을 통일화 시키도록 하겠습니다.
 ### - 다음 보완 사항에 UpsideDownCake 사용 예정 
-### - proguard 를 대신 R 로 사용할 예정입니다. 
+### - proguard 를 대신 R8 로 사용할 예정입니다. 
