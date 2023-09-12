@@ -206,10 +206,6 @@ figma 제가 생각한 초기 생각한 디자인입니다.
                         └─subway
 ```
 
-## 보완 사항
-### - 다음번에는 Gson 이 아닌 moshi 로 제작할 것 입니다.
-### - Clean arhcitect Local 저장 부분을 더욱 보완 할 것입니다.
-### - 패키지 명이 달라 명칭을 통일화 시키도록 하겠습니다.
 
 
 
@@ -225,3 +221,8 @@ https://github.com/naedong/travelB/assets/107181511/044ae7f2-ae9d-498f-8349-dbf5
 https://github.com/naedong/travelB/assets/107181511/0d4dcbe9-340c-40cb-b221-df01fd84ade7
 - 기본 UI만 완성
 
+
+## 보완 사항
+### - 다음번에는 Gson 이 아닌 moshi 로 제작할 것 입니다.
+### - Clean arhcitect Local 저장 부분을 더욱 보완 할 것입니다.
+### - 패키지 명이 달라 명칭을 통일화 시키도록 하겠습니다.
