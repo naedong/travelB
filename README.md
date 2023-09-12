@@ -1,7 +1,7 @@
 # travelB
 kotlin, jetpack compose, mvvm, clean architecture 
 
-https://www.figma.com/file/1zlCdJ8h1E8DivXBJJB84v/prototype?type=design&node-id=1%3A4&mode=design&t=TcmNOIU9fpFOUMvh-1
+<https://www.figma.com/file/1zlCdJ8h1E8DivXBJJB84v/prototype?type=design&node-id=1%3A4&mode=design&t=TcmNOIU9fpFOUMvh-1>
 
 figma 제가 생각한 초기 생각한 디자인입니다. 
 
