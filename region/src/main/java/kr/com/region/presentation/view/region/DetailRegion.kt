@@ -1,12 +1,10 @@
 package kr.com.region.presentation.view.region
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,10 +24,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.paging.compose.items
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -37,7 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.rememberAsyncImagePainter
+import androidx.paging.compose.items
 import kr.com.region.presentation.model.ListDataModel
 import kr.com.region.presentation.model.RegionViewModel
 import kr.tr.commom.items.NavigationItem
@@ -58,8 +55,9 @@ fun DetailRegionScreen(navi: NavHostController) {
 
     LazyColumn(
         modifier = Modifier
+
             .padding(
-                top = 3.dp,
+                top = 10.dp,
                 )
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Top,
@@ -70,6 +68,7 @@ fun DetailRegionScreen(navi: NavHostController) {
             it?.let { item ->
                 Row(
                     modifier = Modifier
+
                         .padding(
                             start = 5.dp
                         )
@@ -78,12 +77,13 @@ fun DetailRegionScreen(navi: NavHostController) {
                         .border(
                             width = 1.dp,
                             color = Color.Black,
-                            shape = RoundedCornerShape(1.dp)
+                            shape = RoundedCornerShape(5.dp)
                         )
                         .clickable {
                             rememberSave = true
                             rememberSaveNumber = item.rnum
                         },
+
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -154,7 +154,9 @@ fun DetailRegionScreen(navi: NavHostController) {
             viewmodel.onChangeStored(rememberSaveNumber).collectAsLazyPagingItems()
         LazyColumn(
             modifier = Modifier
-                .padding(top = 3.dp, bottom = 90.dp)
+                .padding(top = 10.dp,
+                    start = 10.dp,
+                    bottom = 90.dp)
                 .fillMaxHeight(),
 
             verticalArrangement = Arrangement.Top,
@@ -171,7 +173,7 @@ fun DetailRegionScreen(navi: NavHostController) {
                         .border(
                             width = 1.dp,
                             color = Color.Black,
-                            shape = RoundedCornerShape(1.dp)
+                            shape = RoundedCornerShape(5.dp)
                         )
                         .clickable {
                             items?.let { area ->

@@ -1,28 +1,27 @@
 package kr.com.map.presentation.model
 
-import android.content.Context
-import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import kr.com.map.data.entity.DocumentResult
+import kotlinx.coroutines.flow.Flow
 import kr.com.map.data.entity.SelectPosition
-import kr.com.map.data.model.Document
-import kr.tr.domain.model.item.CurrentLocationTrackingModel
+import kr.com.map.data.model.DocumentItemResult
+import kr.com.map.util.ListMode
+import kr.com.map.util.MapViewMode
+import kr.tr.domain.model.item.MapLocationBasedItemItem
+import kr.tr.domain.repository.MapLocationBasedInter
 import kr.tr.domain.usecase.getBool
-import kr.tr.domain.usecase.getMapDataTrackingUseCase
-import kr.tr.domain.usecase.setMapDataTrackingUseCase
 import kr.tr.domain.usecase.setPutBoolean
+import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapView.CurrentLocationTrackingMode
 import net.daum.mf.map.api.MapView.MapType
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 /**
  * TravelBProject
@@ -34,8 +33,49 @@ import javax.inject.Inject
 class MapViewModel @Inject constructor(
     private val setBool : setPutBoolean,
     private val getBool : getBool,
+    private val mapLocation : MapLocationBasedInter,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+    private var _documentResultEvent = MutableLiveData<DocumentItemResult>()
+    val documentResultEvent: LiveData<DocumentItemResult> = _documentResultEvent
+    var selectPositionEvent = MutableLiveData<SelectPosition>()
+    val requireDocumentList get() = documentResultEvent.value!!.documentList
+
+
+    val listModeLiveData = savedStateHandle.getLiveData(LIST_MODE, ListMode.LIST)
+    val mapViewModeLiveData = savedStateHandle.getLiveData(MAP_VIEW_MODE, MapViewMode.DEFAULT)
+    var mapViewMode: MapViewMode
+        get() = mapViewModeLiveData.value!!
+        set(mapViewMode) {
+            if (mapViewMode.isNotDefault) {
+                disableTrackingMode()
+                listMode = ListMode.LIST
+            }
+            mapViewModeLiveData.value = mapViewMode
+        }
+    var listMode: ListMode
+        get() = listModeLiveData.value!!
+        set(listMode) {
+            listModeLiveData.value = listMode
+        }
+
+    fun disableTrackingMode() {
+        setTrackingMode(CurrentLocationTrackingMode.TrackingModeOff)
+    }
+
+    fun selectDocument(position: Int, selectedByMap: Boolean) {
+        selectPositionEvent.value = SelectPosition(position, selectedByMap)
+    }
+
+    private val _useGPS = MutableLiveData<List<Double>>()
+    var useGPS : LiveData<List<Double>> = _useGPS
+
+    fun setUseGPS(lati: Double, long : Double){
+        _useGPS.value = listOf(lati, long)
+    }
+
+    private val _Length = MutableLiveData<Float>()
+    var length : LiveData<Float> = _Length
 
     private val _TrackingMode = MutableLiveData<CurrentLocationTrackingMode>()
     var trackingMode : LiveData<CurrentLocationTrackingMode> = _TrackingMode
@@ -46,19 +86,29 @@ class MapViewModel @Inject constructor(
     private val _TypeBackGround = MutableLiveData<Boolean>()
     var typeBackground : LiveData<Boolean> = _TypeBackGround
 
+    private val _Markers = MutableLiveData<MapPOIItem>()
+    val markers : LiveData<MapPOIItem> = _Markers
+
+    fun setLength(set : Float){
+        _Length.value = set
+    }
+    fun getMapLocation(contentTypeID : String = "39"): Flow<PagingData<MapLocationBasedItemItem>> {
+         return mapLocation.getMapLocationBasedInter(
+                contentTypeId = contentTypeID,
+                mapY = useGPS.value?.get(1).toString(),
+                mapX = useGPS.value?.get(0).toString(),
+                radius = length.value?.absoluteValue.toString()
+            ).cachedIn(viewModelScope)
+    }
+
+
+
     fun setTrackingMode(set : CurrentLocationTrackingMode){
         _TrackingMode.value = set
     }
-
-
     fun setTypeBackGround(set : Boolean){
         _TypeBackGround.value = set
     }
-
-    fun getTypeBackGround() : Boolean? {
-        return typeBackground.value
-    }
-
     fun setMyMapType(mapType: MapType){
          when(mapType){
             MapType.Satellite -> { _MyMapType.value = MapType.Satellite }
@@ -67,103 +117,10 @@ class MapViewModel @Inject constructor(
         }
     }
 
-
-//
-//
-//    private var _documentResultEvent = MutableLiveData<DocumentResult>()
-//    val documentResultEvent: LiveData<DocumentResult> = _documentResultEvent
-//    private val favoriteDocumentListCache: MutableList<Document> = ArrayList()
-//
-//    //
-//    var selectPositionEvent = MutableLiveData<SelectPosition>()
-//
-//    val trackingLiveData = getMapUseCase.invoke().asLiveData()
-//    //
-//
-//    private val _boolLiveData : MutableLiveData<Boolean> by lazy {
-//        MutableLiveData<Boolean>()
-//    }
-//    val boolLiveData : LiveData<Boolean> = _boolLiveData
-//
-//
-//
-//    private fun scopeIsBool(bool : Boolean) =
-//         viewModelScope.launch{
-//                 setBool.setPutBoolean(bool)
-//         }
-//
-//
-//    fun setDataBool(){
-//        boolLiveData.value?.let {
-//            scopeIsBool(it)
-//        }
-//    }
-//
-//    fun getIsBool() : Boolean{
-//        val reBool : Boolean = false
-//        getBool.invoke().asLiveData().value?.let {
-//            reBool == it
-//        }
-//        return reBool
-//    }
-//
-//    fun enableTrackingMode() {
-//        setTrackingMode(tempTrackingModeForEnable!!)
-//    }
-//
-//    fun disableTrackingMode() {
-//        setTrackingMode(CurrentLocationTrackingModel.TrackingModeOff)
-//    }
-//    fun toggleTrackingMode(){
-//        var trackingMode = trackingLiveData.value
-//        if(trackingMode == null){
-//            trackingMode = CurrentLocationTrackingModel.TrackingModeOff
-//        }
-//        val newTrackingMode = when (trackingMode) {
-//            CurrentLocationTrackingModel.TrackingModeOnWithoutHeading -> CurrentLocationTrackingMode.TrackingModeOnWithHeading
-//            CurrentLocationTrackingModel.TrackingModeOnWithHeading -> CurrentLocationTrackingMode.TrackingModeOff
-//            else -> CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-//        }
-//        setTrackingMode(newTrackingMode)
-//    }
-//    private fun setTrackingMode(trackingMode: CurrentLocationTrackingModel) = viewModelScope.launch {
-//        setMapDataTrackingUseCase.excute(trackingMode)
-//    }
-//
-//    var tempTrackingModeForEnable : CurrentLocationTrackingModel?
-//        get() {
-//            val tempTrackingMode = savedStateHandle.remove<CurrentLocationTrackingMode>(
-//                TEMP_TRACKING_MODE
-//            )
-//            return tempTrackingMode ?: CurrentLocationTrackingModel.TrackingModeOnWithoutHeading
-//        }
-//        set(trackingMode) {
-//            savedStateHandle[TEMP_TRACKING_MODE] = trackingMode
-//        }
-//// Tracking ^^
-//fun selectDocument(position: Int, selectedByMap: Boolean) {
-//    selectPositionEvent.value = SelectPosition(position, selectedByMap)
-//}
-//    // Docu
-//    val requireDocumentList get() = documentResultEvent.value!!.documentList
-//    private fun setDocumentListWithFavorite(
-//        documentList: List<Document>, favoriteDocumentList: List<Document>, isMoveCamera: Boolean
-//    ) {
-//        val newDocumentList = documentList.map {
-//            val favoriteDocument = favoriteDocumentList.find { document1 -> document1.id == it.id }
-//            it.copy(isFavorite = favoriteDocument != null)
-//        }
-//        _documentResultEvent.value = DocumentResult(newDocumentList, isMoveCamera)
-//    }
-//
-//
-//    init {
-//
-//        }
-//
-//    companion object {
-//        private const val MAP_VIEW_MODE = "MAP_VIEW_MODE"
-//        private const val LIST_MODE = "LIST_MODE"
-//        private const val TEMP_TRACKING_MODE = "TEMP_TRACKING_MODE"
-//    }
+    companion object {
+        private const val MAP_VIEW_MODE = "MAP_VIEW_MODE"
+        private const val LIST_MODE = "LIST_MODE"
+        private const val TEMP_TRACKING_MODE = "TEMP_TRACKING_MODE"
+    }
 }
+

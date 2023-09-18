@@ -83,7 +83,6 @@ fun regionPager(
     beyondBoundsPageCount: Int,
     pageSize: PageSize = PageSize.Fill,
     flingBehavior: SnapFlingBehavior = PagerDefaults.flingBehavior(state),
-    key: String = "",
     navi: NavHostController,
 ){
 
@@ -104,7 +103,7 @@ fun regionPager(
     ) {
         when(it){
             0 -> DetailRegionScreen(navi)
-            else -> SubWayScreen()
+            else -> SubWayScreen(navi)
         }
 
     }

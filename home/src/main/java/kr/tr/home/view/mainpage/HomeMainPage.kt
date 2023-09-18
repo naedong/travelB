@@ -42,19 +42,15 @@ fun HomeMainPage(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        HomeMainPageSlide()
+        HomeMainPageSlide(navController)
 
         getGradientDivider()
 
-//        HomeMainAdsBanner()
-
-//        getGradientDivider()
-
-        HomeMainPeopleChoice()
+        HomeMainPeopleChoice(navController)
 
         getGradientDivider()
 
-        HomeMainWatchedPlace()
+        HomeMainWatchedPlace(navController)
 
 
         Box(
@@ -72,13 +68,11 @@ fun HomeMainPage(navController: NavHostController) {
 
 
 @Composable
-fun HomeMainPageSlide() {
+fun HomeMainPageSlide(navController: NavHostController) {
 
     val savedState = rememberSaveable {
         mutableStateOf<GetAttractionKrItemWrapper?>(null)
     }
-
-
 
     val viewModel = hiltViewModel<AttrationServiceViewModel>()
     val list = viewModel.attrationServiceViewModel.collectAsLazyPagingItems()
@@ -89,8 +83,8 @@ fun HomeMainPageSlide() {
 }
 
 @Composable
-fun HomeMainWatchedPlace() {
-    InfoItem()
+fun HomeMainWatchedPlace(navController: NavHostController) {
+    InfoItem(navController)
 
 }
 
@@ -112,7 +106,7 @@ fun HomeMainAdsBanner() {
 }
 
 @Composable
-fun HomeMainPeopleChoice() {
-    InfoItem()
+fun HomeMainPeopleChoice(navController: NavHostController) {
+    InfoItem(navController)
 }
 

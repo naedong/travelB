@@ -3,10 +3,8 @@ package kr.tr.home.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-
 import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.utill.TypeConvetor
 import kr.tr.domain.model.item.GetFestivalKrItem
@@ -25,7 +23,6 @@ fun NavGraphBuilder.homeScreen(navController: NavHostController) {
             navArgument("index"){
                 type = NavType.StringType
             },
-
         )
         ) {
         var backStackEntry = it.arguments?.getString("index")
@@ -41,10 +38,7 @@ fun NavGraphBuilder.homeScreen(navController: NavHostController) {
 
     composable(route = NavigationItem.mainHome.route + "/Schedule" + "/detail?ucSeq={ucSeq}",
     ) {
-
         val ucSeq = it.arguments?.getString("ucSeq")
-
-
         ucSeq?.let {index ->
             val useObject =
                 TypeConvetor(GetFestivalKrItem::class.java).JsonStringToClass(index)

@@ -1,7 +1,6 @@
 package kr.com.map.data.model
 
 import kr.com.map.data.entity.DocumentEntity
-import kr.com.map.data.model.DocumentResult
 import net.daum.mf.map.api.MapPOIItem
 import java.util.Random
 

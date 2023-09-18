@@ -3,6 +3,7 @@ package kr.tr.home.widget
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,20 +46,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.theme.CustomMaterialTheme
+import kr.tr.commom.utill.TypeConvetor
 import kr.tr.domain.model.item.GetAttractionKrItem
+import kr.tr.domain.model.item.GetAttractionKrItemWrapper
 import kr.tr.domain.model.item.GetFestivalKrItem
 import kr.tr.home.model.FestivalServiceViewModel
 import kotlin.math.absoluteValue
-
-import androidx.compose.ui.util.lerp
-import kr.tr.domain.model.item.GetAttractionKrItemWrapper
 
 /**
  * TravelBProject
@@ -333,13 +336,9 @@ fun Modifier.carouselTransition(page: Int, pagerState: PagerState) =
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun InfoItem(
-) {
-
+fun InfoItem(navController: NavHostController) {
     val viewModel = hiltViewModel<FestivalServiceViewModel>()
-
     val list = viewModel.festivalServiceModel.collectAsLazyPagingItems()
-
     val totalItems = 10
     val pageCount = list.itemCount.coerceAtMost(totalItems)
     val pagerState: PagerState = rememberPagerState { pageCount }
@@ -379,14 +378,22 @@ fun InfoItem(
                             defaultElevation = 6.dp
                         ),
 
-                        onClick = {},
+                        onClick = {
+
+                        },
                     ) {
-                        Column {
+                        Column(modifier = Modifier.clickable {
+                            navController.navigate(
+                                NavigationItem.mainHome.route +"/Schedule" + "/detail?ucSeq=${
+                                    TypeConvetor(clazz = GetFestivalKrItem::class.java).ClassToJsonString(
+                                        listItem
+                                    )
+                                }"
+                            )
+                        }) {
                             AsyncImage(
                                 model = listItem.mainImgNormal,
                                 contentDescription = null,
-//            placeholder = painterResource(id = R.drawable.ic_load_placeholder),
-//            error = painterResource(id = R.drawable.ic_load_error),
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(size = 12.dp))

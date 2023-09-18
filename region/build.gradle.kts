@@ -72,7 +72,6 @@ dependencies {
     implementation(project(":common"))
     implementation(project(mapOf("path" to ":domain")))
 
-
     implementation(Libraries.compose.coreKtx)
     implementation(Libraries.appCompat.appCompat)
     implementation(Libraries.compose.material.materialVersion)
@@ -116,6 +115,8 @@ dependencies {
     runtimeOnly(Libraries.livedata.liveData)
     implementation(Libraries.livedata.liveData)
 
+    //webView
+    implementation(Libraries.webView.webView)
 
 
 }

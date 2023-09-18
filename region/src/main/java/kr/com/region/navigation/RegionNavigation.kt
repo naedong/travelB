@@ -7,7 +7,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import kr.com.region.presentation.view.RegionRouter
 import kr.com.region.presentation.view.region.DetailRegionPage
+import kr.com.region.presentation.view.subway.DetailSubWayScreen
 import kr.tr.commom.items.NavigationItem
+import kr.tr.commom.utill.TypeConvetor
+import kr.tr.domain.model.item.SubWayItemData
 
 /**
  * TravelBProject
@@ -37,5 +40,11 @@ fun NavGraphBuilder.regionScreen(
             )
     }
 
+    composable(NavigationItem.region.route+"/detail/{item}", ){
+        val item = it.arguments?.getString("item")
+        item?.let { arg ->
+            DetailSubWayScreen(navController, TypeConvetor(SubWayItemData::class.java).JsonStringToClass(arg))
+        }
+    }
 
 }

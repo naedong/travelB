@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -30,11 +28,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import kr.com.region.presentation.model.SubWayViewModel
+import kr.tr.commom.items.NavigationItem
 import kr.tr.commom.theme.CustomMaterialTheme
+import kr.tr.commom.utill.TypeConvetor
+import kr.tr.domain.model.item.AreaBasedListItem
+import kr.tr.domain.model.item.SubWayItemData
 
 /**
  * TravelBProject
@@ -43,13 +46,13 @@ import kr.tr.commom.theme.CustomMaterialTheme
  * Time: 오전 11:05
  */
 @Composable
-fun SubWayScreen() {
-    ListViewModel()
+fun SubWayScreen(navi: NavHostController) {
+    ListViewModel(navi)
 
 }
 
 @Composable
-fun ListViewModel() {
+fun ListViewModel(navi: NavHostController) {
     val viewModel = hiltViewModel<SubWayViewModel>()
     val viewModelItem = viewModel.stationCode.collectAsLazyPagingItems()
     val getSaveString: String by viewModel.booleanSave.observeAsState("")
@@ -63,8 +66,6 @@ fun ListViewModel() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-
         items(viewModelItem.itemCount) { index ->
             viewModelItem[index]?.routeName?.let {
                 if (index == 0) itemRow(it, viewModel)
@@ -72,7 +73,6 @@ fun ListViewModel() {
             }
         }
     }
-
     LazyColumn(
         modifier = Modifier
             .padding(top = 3.dp)
@@ -83,7 +83,7 @@ fun ListViewModel() {
             items(viewModelItem) { item ->
                 if (getSaveString.equals(item?.routeName)) {
                     item?.stationName?.let {
-                        StationNameItem(str = it)
+                        StationNameItem(str = it, item, navi)
                     }
                 }
             }
@@ -137,7 +137,6 @@ fun ListViewModel() {
                             fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
                             fontSize = 20.sp
                         )
-
                     }
                 }
             }
@@ -146,8 +145,7 @@ fun ListViewModel() {
 }
 
 @Composable
-fun StationNameItem(str: String) {
-
+fun StationNameItem(str: String, item: SubWayItemData, navi: NavHostController) {
     Row(
         modifier = Modifier
             .padding(
@@ -162,7 +160,11 @@ fun StationNameItem(str: String) {
                 shape = RoundedCornerShape(1.dp)
             )
             .clickable {
-
+                   navi.navigate(NavigationItem.region.route+"/detail/${
+                       TypeConvetor(clazz = SubWayItemData::class.java).ClassToJsonString(
+                           item
+                       )
+                   }")
             },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
@@ -172,9 +174,7 @@ fun StationNameItem(str: String) {
             fontFamily = CustomMaterialTheme.typography.hakgyoanasimwoojur,
             fontSize = 15.sp
         )
-
     }
-
 }
 
 @Composable

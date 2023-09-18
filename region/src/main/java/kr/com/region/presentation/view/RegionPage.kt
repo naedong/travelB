@@ -1,9 +1,7 @@
 package kr.com.region.presentation.view
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import kr.com.region.presentation.model.ListDataModel
 
 /**
  * TravelBProject

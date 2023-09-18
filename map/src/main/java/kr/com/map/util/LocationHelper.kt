@@ -1,4 +1,4 @@
-package kr.tr.travelbproject.di
+package kr.com.map.util
 
 import android.content.Context
 import android.location.LocationManager

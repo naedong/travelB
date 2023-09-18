@@ -1,8 +1,5 @@
 package kr.com.region.presentation.server
 
-import androidx.compose.runtime.saveable.listSaver
-import kr.tr.domain.model.item.GetAttractionKrItem
-
 /**
  * TravelBProject
  * Created by Naedong

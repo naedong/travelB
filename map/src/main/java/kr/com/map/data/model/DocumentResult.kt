@@ -23,3 +23,9 @@ data class DocumentResult(
     val address: Address,
     val roadAddress: RoadAddress,
 )
+
+data class DocumentItemResult(val documentList: List<Document>, val isMoveCamera: Boolean) {
+    companion object {
+        fun empty() = DocumentItemResult(documentList = emptyList(), isMoveCamera = false)
+    }
+}
