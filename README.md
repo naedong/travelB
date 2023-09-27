@@ -1,5 +1,16 @@
 # travelB
-kotlin, jetpack compose, mvvm, clean architecture 
+
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5&height=320&section=header&text=NaedongGithub&fontSize=90)
+
+
+<div align="center">
+	<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
+	<img src="https://img.shields.io/badge/Kotlin-E24462?style=flat&logo=Kotlin&logoColor=purpleblue" />
+	<img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=Android&logoColor=white" />
+ 	<img src="https://img.shields.io/badge/AndroidStudio-3DDC84?style=flat&logo=AndroidStudio&logoColor=white" />
+    <img src="https://img.shields.io/badge/JetpackCompose-4285F4?style=flat&logo=JetpackCompose&logoColor=white" />
+</div>
+
 
 ## Figma 
 
