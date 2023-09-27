@@ -29,7 +29,7 @@ MVP는 구성하지 않았습니다.
 > - 100% Compose로 구성 중 이며 Groovy에서 KTS로 빌드 구성 하였습니다.
 > - coroutiones 사용 
 
-## 중요 라이브러리 버젼 정보
+## 라이브러리 버전 정보
 > - androidx.compose.material3:material3    = "1.1.1"
 > - com.google.accompanist:accompanist-pager: = 0.30.1
 > - org.jetbrains.kotlinx:kotlinx-coroutines-android: = "1.7.1"
