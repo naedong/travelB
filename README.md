@@ -1,5 +1,5 @@
 
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5&height=350&section=header&text=Android&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5&height=350&section=header&text=NaedongGitHub&fontSize=90)
 
 ![notion](https://ringed-aster-57d.notion.site/Study-f9e360a866b94de5aa90d26761f8940d)
 
